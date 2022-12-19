@@ -11,12 +11,7 @@
         "preferred-install": "dist"
     },
     "scripts": {
-        "stubs": [
-            "rm -rf stubs",
-            "wget -q -P stubs/ https://cachewerk.s3.amazonaws.com/relay/LATEST",
-            "wget -q -P stubs/develop https://cachewerk.s3.amazonaws.com/relay/dev/relay.stub.php",
-            "VERSION=$(cat stubs/LATEST); wget -q -P stubs/${VERSION:1:2}x https://cachewerk.s3.amazonaws.com/relay/$VERSION/relay.stub.php"
-        ],
+        "stubs": "./bin/stubs.sh",
         "docs:api": "./vendor/bin/doctum.php update --force -v doctum/config.php",
         "docs:api:gh": "./vendor/bin/doctum.php update --force --no-ansi --no-progress --output-format=github -v doctum/config.php"
     },
