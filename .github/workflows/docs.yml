@@ -35,6 +35,7 @@ jobs:
         run: composer install --no-interaction
 
       - name: Set up stubs
+        shell: bash
         run: composer run stubs
 
       - name: Generate API documentation
