@@ -12,8 +12,7 @@
     },
     "scripts": {
         "stubs": "./bin/stubs.sh",
-        "docs:api": "./vendor/bin/doctum.php update --force -v doctum/config.php",
-        "docs:api:gh": "./vendor/bin/doctum.php update --force --no-ansi --no-progress --output-format=github -v doctum/config.php"
+        "docs:api": "./vendor/bin/doctum.php update --force -v doctum/config.php"
     },
     "require-dev": {
         "code-lts/doctum": "^5.5"

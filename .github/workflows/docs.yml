@@ -38,7 +38,7 @@ jobs:
         run: composer run stubs
 
       - name: Generate API documentation
-        run: composer run docs:api::gh
+        run: ./vendor/bin/doctum.php update --force --no-ansi --no-progress --output-format=github -v doctum/config.php
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
