@@ -1,0 +1,53 @@
+name: Generate docs
+
+on:
+  schedule:
+    - cron: '0 11 * * *' # 11:00 UTC, 03:00 PT, 06:00 ET
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+
+  deploy:
+
+    name: API docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+
+      - name: Checkout develop branch
+        uses: actions/checkout@v3
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction
+
+      - name: Set up stubs
+        run: composer run stubs
+
+      - name: Generate API documentation
+        run: composer run docs:api::gh
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        id: deployment
