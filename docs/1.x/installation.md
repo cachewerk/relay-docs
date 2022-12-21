@@ -61,8 +61,8 @@ RUN install-php-extensions relay
 If the setup is using Ondřej’s wonderful `ppa:ondrej/php` repository ([deb.sury.org](https://deb.sury.org)) to manage PHP and extensions, simply add our key and repository:
 
 ```bash
-curl -s https://cachewerk.s3.amazonaws.com/repos/key.gpg | sudo apt-key add -
-sudo add-apt-repository "deb https://cachewerk.s3.amazonaws.com/repos/deb $(lsb_release -cs) main"
+curl -s https://repos.r2.relay.so/key.gpg | sudo apt-key add -
+sudo add-apt-repository "deb https://repos.r2.relay.so/deb $(lsb_release -cs) main"
 sudo apt update
 ```
 
@@ -86,7 +86,7 @@ Finally, restart PHP-FPM and the web server.
 If the setup is using Remi’s excellent repository ([rpms.remirepo.net](https://rpms.remirepo.net)) to manage PHP and extensions, simply add our key and repository:
 
 ```bash
-curl -s -o /etc/yum.repos.d/cachewerk.repo "https://cachewerk.s3.amazonaws.com/repos/rpm/el.repo"
+curl -s -o /etc/yum.repos.d/cachewerk.repo "https://repos.r2.relay.so/rpm/el.repo"
 ```
 
 Then, depending on the setup, install either Relay for a specific PHP version, or for the default version.
@@ -190,7 +190,7 @@ jobs:
 
       - name: Install Relay
         run: |
-          curl -L "https://cachewerk.s3.amazonaws.com/relay/${{ env.relay }}/relay-${{ env.relay }}-php${{ env.php }}-debian-x86-64.tar.gz" | tar xz
+          curl -L "https://builds.r2.relay.so/${{ env.relay }}/relay-${{ env.relay }}-php${{ env.php }}-debian-x86-64.tar.gz" | tar xz
           cd relay-${{ env.relay }}-php${{ env.php }}-debian-x86-64
           sudo cp relay.ini $(php-config --ini-dir)
           sudo cp relay-pkg.so $(php-config --extension-dir)/relay.so
@@ -246,7 +246,7 @@ Next, [grab the URL](/builds) for the build matching the system. We'll use Ubunt
 
 ```bash
 mkdir /tmp/relay
-curl -sSL "https://cachewerk.s3.amazonaws.com/relay/v0.4.6/relay-v0.4.6-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
+curl -sSL "https://builds.r2.relay.so/v0.4.6/relay-v0.4.6-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
 ```
 
 If we're missing a build for your particular system or architecture, please [open an issue](https://github.com/cachewerk/relay/issues).
@@ -384,7 +384,7 @@ RELAY_INI_DIR=$(php-config --ini-dir)          # /etc/php/8.1/cli/conf.d/
 RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902
 RELAY_ARCH=$(arch | sed -e 's/arm64/aarch64/;s/amd64\|x86_64/x86-64/')
 
-RELAY_ARTIFACT="https://cachewerk.s3.amazonaws.com/relay/$RELAY_VERSION/relay-$RELAY_VERSION-php$RELAY_PHP-debian-$RELAY_ARCH.tar.gz"
+RELAY_ARTIFACT="https://builds.r2.relay.so/$RELAY_VERSION/relay-$RELAY_VERSION-php$RELAY_PHP-debian-$RELAY_ARCH.tar.gz"
 RELAY_TMP_DIR=$(mktemp -dt relay)
 
 ## Download artifact
