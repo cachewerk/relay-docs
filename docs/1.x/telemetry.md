@@ -92,6 +92,7 @@ Relay uses a Fair Billing Policy and only bills for actively used production run
         "misses": 0,
         "memory": 0,
         "interval": 3600,
+        "samples": 0,
         "timestamp": 1234567890,
         "updated": 1234567890,
         "workers": 0,
