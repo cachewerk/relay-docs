@@ -12,7 +12,8 @@
     },
     "scripts": {
         "doctum": "./vendor/bin/doctum.php update --force -v doctum/config.php",
-        "doctum:stubs": "./bin/stubs-doctum.sh"
+        "doctum:stubs": "./bin/stubs-doctum.sh",
+        "stubs": "./bin/php-stubs.sh"
     },
     "require-dev": {
         "code-lts/doctum": "^5.5"
