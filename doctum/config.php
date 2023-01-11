@@ -7,8 +7,8 @@ use Doctum\Version\VersionCollection;
 use Symfony\Component\Finder\Finder;
 
 $root = realpath(__DIR__ . '/..');
-$stubs = "{$root}/stubs";
 $src = __DIR__ . '/.source';
+$stubs = __DIR__ . '/.stubs';
 
 if (! is_dir($src)) {
     mkdir($src);

@@ -35,7 +35,7 @@ jobs:
         run: composer install --no-interaction
 
       - name: Set up stubs
-        run: composer run stubs
+        run: composer run doctum:stubs
 
       - name: Generate API documentation
         run: ./vendor/bin/doctum.php update --force --no-ansi --no-progress --output-format=github -v doctum/config.php

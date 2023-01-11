@@ -1,6 +1,4 @@
 /dist/api/*/
-/doctum/.cache
-/doctum/.source
-/stubs
+/doctum/.*
 /vendor
 composer.lock
