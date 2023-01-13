@@ -11,8 +11,8 @@ LATEST_VERSION=dev
 wget -q -P stubs "https://builds.r2.relay.so/${LATEST_VERSION}/relay.stub.php"
 
 ## Append curly brackets to functions
-gsed -i -r --posix 's/);$/) { }/' stubs/relay.stub.php
-gsed -i -r --posix 's/):(.*);$/):\1 { }/' stubs/relay.stub.php
+gsed -i -r --posix 's/);$/) {}/' stubs/relay.stub.php
+gsed -i -r --posix 's/):(.*);$/):\1 {}/' stubs/relay.stub.php
 
 ## Inject `LanguageLevelTypeAware` attributes
 # TODO: ...
