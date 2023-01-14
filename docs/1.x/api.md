@@ -13,7 +13,7 @@ Fetching a specific stub without downloading a build can be done as well:
 
 ```bash
 wget "https://builds.r2.relay.so/dev/relay.stub.php"
-curl "https://builds.r2.relay.so/v0.5.1/relay.stub.php" > relay.stub.php
+curl --remote-name "https://builds.r2.relay.so/v0.5.1/relay.stub.php"
 ```
 
 ## Groups
