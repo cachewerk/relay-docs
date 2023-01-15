@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: null
+
+jobs:
+
+  codespell:
+
+    name: Spelling
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache package
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-codespell
+
+      - name: Install codespell
+        run: pip install --user 'codespell>=2.2'
+
+      - name: Check spelling
+        run: $(python -m site --user-base)/bin/codespell
