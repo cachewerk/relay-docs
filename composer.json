@@ -11,6 +11,7 @@
         "preferred-install": "dist"
     },
     "scripts": {
+        "stubs": "./bin/php-stubs.sh",
         "doctum": "./vendor/bin/doctum.php update --force -v doctum/config.php",
         "doctum:stubs": "./bin/stubs-doctum.sh"
     },
