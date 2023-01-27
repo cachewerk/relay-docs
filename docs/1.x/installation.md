@@ -164,39 +164,24 @@ heroku config:set RELAY_KEY=...
 
 ## GitHub Actions
 
-Installing Relay on GitHub Actions in combination with `shivammathur/setup-php` is seamless.
-
-Be sure to install the `msgpack` and `igbinary` as well.
+Installing Relay on GitHub Actions using `shivammathur/setup-php` is seamless.
 
 ```yaml
-name: Test
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      php: 8.1
-      relay: v0.5.1
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ env.php }}
-          extensions: msgpack, igbinary
+          php-version: 8.2
+          extensions: relay # or `relay-v0.6.0`
 
-      - name: Install Relay
-        run: |
-          curl -L "https://builds.r2.relay.so/${{ env.relay }}/relay-${{ env.relay }}-php${{ env.php }}-debian-x86-64.tar.gz" | tar xz
-          cd relay-${{ env.relay }}-php${{ env.php }}-debian-x86-64
-          sudo cp relay.ini $(php-config --ini-dir)
-          sudo cp relay-pkg.so $(php-config --extension-dir)/relay.so
-          sudo sed -i "s/00000000-0000-0000-0000-000000000000/$(cat /proc/sys/kernel/random/uuid)/" $(php-config --extension-dir)/relay.so
-
-      - name: Show Relay configuration
+      - name: Dump Relay configuration
         run: |
           php --ri relay
 ```
