@@ -15,6 +15,6 @@
         "doctum:stubs": "./bin/stubs-doctum.sh"
     },
     "require-dev": {
-        "code-lts/doctum": "^5.5"
+        "code-lts/doctum": "dev-phpstan-doc-support"
     }
 }
