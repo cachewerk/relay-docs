@@ -56,11 +56,10 @@ $relay->setOption(Relay::OPT_CLIENT_INVALIDATIONS, false);
 
 ## `OPT_PHPREDIS_COMPATIBILITY`
 
-Out of the box Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedis.
-However, you may disable the compatiblity mode, which will cause Relay to:
+Out of the box Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedis. However, you may disable the compatibility mode, which will cause Relay to:
 
-1. Return `null` (instead of `false`) when a key doesn't exist
-2. Throw exceptions when a read-error occurs
+1. Return `null` when a key doesn't exist, instead of returning `false`
+2. Throw exceptions when a read-error occurs, instead of returning `false`
 3. Not modify `rawCommand()` responses
 
 ```php
