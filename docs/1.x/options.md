@@ -56,13 +56,45 @@ $relay->setOption(Relay::OPT_CLIENT_INVALIDATIONS, false);
 
 ## `OPT_PHPREDIS_COMPATIBILITY`
 
-Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedis. By default however, Relay will return `null` when a key doesn't exist, whereas PhpRedis returns `false`.
+Out of the box Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedis.
+However, you may disable the compatiblity mode, which will cause Relay to:
+
+1. Return `null` (instead of `false`) when a key doesn't exist
+2. Throw exceptions when a read-error occurs
+3. Not modify `rawCommand()` responses
 
 ```php
 $relay = new Relay;
-$relay->get('i-do-not-exist'); // `null`
-$relay->setOption(Relay::OPT_PHPREDIS_COMPATIBILITY, true);
-$relay->get('i-do-not-exist'); // `false`
+
+$relay->get('i-do-not-exist'); // false
+$relay->setOption(Relay::OPT_PHPREDIS_COMPATIBILITY, false);
+$relay->get('i-do-not-exist'); // null
+```
+
+## `OPT_NULL_ON_NIL`
+
+You may configure Relay to return `null` when a key doesn't exist, instead of returning `false` like PhpRedis.
+
+```php
+$relay = new Relay;
+
+$relay->get('i-do-not-exist'); // null
+$relay->setOption(Relay::OPT_NULL_ON_NIL, true);
+$relay->get('i-do-not-exist'); // false
+```
+
+## `OPT_THROW_ON_ERROR`
+
+You may configure Relay to throw exceptions when read-errors occur, instead of returning `false` like PhpRedis.
+
+```php
+$relay = new Relay;
+
+$redis->set('name', 'Picard');
+
+$relay->hgetall('name'); // false
+$relay->setOption(Relay::OPT_THROW_ON_ERROR, true);
+$redis->hgetall('name'); // throws \Relay\Exception
 ```
 
 ## PhpRedis' options
