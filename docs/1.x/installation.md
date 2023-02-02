@@ -63,7 +63,15 @@ If the setup is using Ondřej’s wonderful `ppa:ondrej/php` repository ([deb.su
 ```bash
 curl -s https://repos.r2.relay.so/key.gpg | sudo apt-key add -
 sudo add-apt-repository "deb https://repos.r2.relay.so/deb $(lsb_release -cs) main"
-sudo apt update
+```
+
+If `apt-key` or `add-apt-repository` are deprecated or not available, use:
+
+```bash
+curl -fsSL "https://repos.r2.relay.so/key.gpg" | sudo gpg --dearmor -o "/usr/share/keyrings/cachewerk.gpg"
+echo "deb [signed-by=/usr/share/keyrings/cachewerk.gpg] https://repos.r2.relay.so/deb $(lsb_release -sc) main" \
+  | sudo tee /etc/apt/sources.list.d/cachewerk.list > /dev/null
+sudo apt-get update
 ```
 
 Then, depending on the setup, install either Relay for a specific PHP version, or for the default version.
