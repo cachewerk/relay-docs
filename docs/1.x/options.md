@@ -18,7 +18,7 @@ By default Relay will cache keys, however sometimes you may want to instantiate 
 
 ```php
 $relay = new Relay;
-$relay->setOption(Relay::USE_CACHE, false); // set before connecting
+$relay->setOption(Relay::OPT_USE_CACHE, false); // set before connecting
 $relay->connect(host: '127.0.0.1');
 ```
 
