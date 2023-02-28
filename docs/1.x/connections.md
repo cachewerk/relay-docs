@@ -6,7 +6,7 @@ title: Connections
 
 [TOC]
 
-For the most part, Relay can be used just like PhpRedis. There are [some exceptions](/docs/1.x/compatibility).
+Relay can be used just like PhpRedis:
 
 ```php
 $redis = new Relay;
