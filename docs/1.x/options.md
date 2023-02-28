@@ -7,10 +7,11 @@ title: Options
 Relay supports all of PhpRedis' `setOption()` options and comes with its own:
 
 - `OPT_USE_CACHE`
+- `OPT_PHPREDIS_COMPATIBILITY`
 - `OPT_CLIENT_INVALIDATIONS`
+- `OPT_THROW_ON_ERROR`
 - `OPT_IGNORE_PATTERNS`
 - `OPT_ALLOW_PATTERNS`
-- `OPT_PHPREDIS_COMPATIBILITY`
 
 ## `OPT_USE_CACHE`
 
@@ -20,6 +21,46 @@ By default Relay will cache keys, however sometimes you may want to instantiate 
 $relay = new Relay;
 $relay->setOption(Relay::OPT_USE_CACHE, false); // set before connecting
 $relay->connect(host: '127.0.0.1');
+```
+
+## `OPT_PHPREDIS_COMPATIBILITY`
+
+Out of the box Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedis. However, you may disable the compatibility mode which will cause Relay to:
+
+1. Return `null` when a key doesn't exist, instead of `false`
+2. Throw exceptions when a read-error occurs, instead of returning `false`
+3. Not modify `rawCommand()` responses
+
+```php
+$relay = new Relay;
+
+$relay->get('i-do-not-exist'); // false
+$relay->setOption(Relay::OPT_PHPREDIS_COMPATIBILITY, false);
+$relay->get('i-do-not-exist'); // null
+```
+
+## `OPT_CLIENT_INVALIDATIONS`
+
+By default Relay will perform instantaneous client-side invalidation when a key is changed without waiting for Redis to send us an `INVALIDATE` message. The invalidation occurs **only in the same FPM pool**.
+
+If you want to disable this behavior and wait for TCP round trips, you can disable this behavior:
+
+```php
+$relay->setOption(Relay::OPT_CLIENT_INVALIDATIONS, false);
+```
+
+## `OPT_THROW_ON_ERROR`
+
+You may configure Relay to throw exceptions when read-errors occur, instead of returning `false` like PhpRedis.
+
+```php
+$relay = new Relay;
+
+$redis->set('name', 'Picard');
+
+$relay->hgetall('name'); // false
+$relay->setOption(Relay::OPT_THROW_ON_ERROR, true);
+$redis->hgetall('name'); // throws `Relay\Exception`
 ```
 
 ## `OPT_ALLOW_PATTERNS`
@@ -42,58 +83,6 @@ $relay->setOption(Relay::OPT_IGNORE_PATTERNS, [
     'analytics:*',
     // ...
 ]);
-```
-
-## `OPT_CLIENT_INVALIDATIONS`
-
-By default Relay will perform instantaneous client-side invalidation when a key is changed without waiting for Redis to send us an `INVALIDATE` message. The invalidation occurs only in the same FPM pool.
-
-If you want to disable this behavior and wait for TCP round trips, you can disable this behavior:
-
-```php
-$relay->setOption(Relay::OPT_CLIENT_INVALIDATIONS, false);
-```
-
-## `OPT_PHPREDIS_COMPATIBILITY`
-
-Out of the box Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedis. However, you may disable the compatibility mode, which will cause Relay to:
-
-1. Return `null` when a key doesn't exist, instead of returning `false`
-2. Throw exceptions when a read-error occurs, instead of returning `false`
-3. Not modify `rawCommand()` responses
-
-```php
-$relay = new Relay;
-
-$relay->get('i-do-not-exist'); // false
-$relay->setOption(Relay::OPT_PHPREDIS_COMPATIBILITY, false);
-$relay->get('i-do-not-exist'); // null
-```
-
-## `OPT_NULL_ON_NIL`
-
-You may configure Relay to return `null` when a key doesn't exist, instead of returning `false` like PhpRedis.
-
-```php
-$relay = new Relay;
-
-$relay->get('i-do-not-exist'); // null
-$relay->setOption(Relay::OPT_NULL_ON_NIL, true);
-$relay->get('i-do-not-exist'); // false
-```
-
-## `OPT_THROW_ON_ERROR`
-
-You may configure Relay to throw exceptions when read-errors occur, instead of returning `false` like PhpRedis.
-
-```php
-$relay = new Relay;
-
-$redis->set('name', 'Picard');
-
-$relay->hgetall('name'); // false
-$relay->setOption(Relay::OPT_THROW_ON_ERROR, true);
-$redis->hgetall('name'); // throws \Relay\Exception
 ```
 
 ## PhpRedis' options
