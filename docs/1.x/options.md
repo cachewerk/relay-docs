@@ -30,6 +30,7 @@ Out of the box Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedi
 1. Return `null` when a key doesn't exist, instead of `false`
 2. Throw exceptions when a read-error occurs, instead of returning `false`
 3. Not modify `rawCommand()` responses
+4. Return plain Redis types when calling `type()`
 
 ```php
 $relay = new Relay;
