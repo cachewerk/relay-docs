@@ -10,7 +10,7 @@ Relay provides several configuration directives and the `relay.ini` file is easi
 php --ini
 ```
 
-It’s strongly recommended to set the `relay.maxmemory`, `relay.eviction_policy` and `relay.databases` directives. If you have a license, be sure to set the `relay.key` and `relay.environment` as well.
+It’s strongly recommended to set the `relay.maxmemory`, `relay.eviction_policy` and `relay.databases` directives. If you're running a licensed binary, be sure to set the `relay.key` and `relay.environment` as well.
 
 ## Memory limits
 

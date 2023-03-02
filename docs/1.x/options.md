@@ -8,10 +8,10 @@ Relay supports all of PhpRedis' `setOption()` options and comes with its own:
 
 - `OPT_USE_CACHE`
 - `OPT_PHPREDIS_COMPATIBILITY`
-- `OPT_CLIENT_INVALIDATIONS`
-- `OPT_THROW_ON_ERROR`
 - `OPT_IGNORE_PATTERNS`
 - `OPT_ALLOW_PATTERNS`
+- `OPT_CLIENT_INVALIDATIONS`
+- `OPT_THROW_ON_ERROR`
 
 ## `OPT_USE_CACHE`
 
@@ -25,19 +25,28 @@ $relay->connect(host: '127.0.0.1');
 
 ## `OPT_PHPREDIS_COMPATIBILITY`
 
-Out of the box Relay is [fully compatible](/docs/1.x/compatibility) with PhpRedis. However, you may disable the compatibility mode which will cause Relay to:
+By default Relay will act exactly like PhpRedis. If desired, Relay can return more precise values and throw exceptions when errors occur. [Read more...](/docs/1.x/compatibility).
 
-1. Return `null` when a key doesn't exist, instead of `false`
-2. Throw exceptions when a read-error occurs, instead of returning `false`
-3. Not modify `rawCommand()` responses
-4. Return plain Redis types when calling `type()`
+## `OPT_ALLOW_PATTERNS`
+
+When `OPT_ALLOW_PATTERNS` is set only keys matching these patterns will be cached, unless they also match a pattern of the `OPT_IGNORE_PATTERNS` option.
 
 ```php
-$relay = new Relay;
+$relay->setOption(Relay::OPT_ALLOW_PATTERNS, [
+    'sessions:*',
+    // ...
+]);
+```
 
-$relay->get('i-do-not-exist'); // false
-$relay->setOption(Relay::OPT_PHPREDIS_COMPATIBILITY, false);
-$relay->get('i-do-not-exist'); // null
+## `OPT_IGNORE_PATTERNS`
+
+Keys matching these patterns will not be stored in Relay’s in-memory cache.
+
+```php
+$relay->setOption(Relay::OPT_IGNORE_PATTERNS, [
+    'analytics:*',
+    // ...
+]);
 ```
 
 ## `OPT_CLIENT_INVALIDATIONS`
@@ -62,28 +71,6 @@ $redis->set('name', 'Picard');
 $relay->hgetall('name'); // false
 $relay->setOption(Relay::OPT_THROW_ON_ERROR, true);
 $redis->hgetall('name'); // throws `Relay\Exception`
-```
-
-## `OPT_ALLOW_PATTERNS`
-
-When `OPT_ALLOW_PATTERNS` is set only keys matching these patterns will be cached, unless they also match a pattern of the `OPT_IGNORE_PATTERNS` option.
-
-```php
-$relay->setOption(Relay::OPT_ALLOW_PATTERNS, [
-    'sessions:*',
-    // ...
-]);
-```
-
-## `OPT_IGNORE_PATTERNS`
-
-Keys matching these patterns will not be stored in Relay’s in-memory cache.
-
-```php
-$relay->setOption(Relay::OPT_IGNORE_PATTERNS, [
-    'analytics:*',
-    // ...
-]);
 ```
 
 ## PhpRedis' options
