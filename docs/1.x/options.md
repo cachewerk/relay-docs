@@ -8,9 +8,9 @@ Relay supports all of PhpRedis' `setOption()` options and comes with its own:
 
 - `OPT_USE_CACHE`
 - `OPT_PHPREDIS_COMPATIBILITY`
-- `OPT_IGNORE_PATTERNS`
-- `OPT_ALLOW_PATTERNS`
 - `OPT_CLIENT_INVALIDATIONS`
+- `OPT_ALLOW_PATTERNS`
+- `OPT_IGNORE_PATTERNS`
 - `OPT_THROW_ON_ERROR`
 
 ## `OPT_USE_CACHE`
@@ -19,13 +19,17 @@ By default Relay will cache keys, however sometimes you may want to instantiate 
 
 ```php
 $relay = new Relay;
-$relay->setOption(Relay::OPT_USE_CACHE, false); // set before connecting
-$relay->connect(host: '127.0.0.1');
+$relay->setOption(Relay::OPT_USE_CACHE, false); // must be set before connecting
+$relay->connect();
 ```
 
 ## `OPT_PHPREDIS_COMPATIBILITY`
 
 By default Relay will act exactly like PhpRedis. If desired, Relay can return more precise values and throw exceptions when errors occur. [Read more...](/docs/1.x/compatibility).
+
+## `OPT_CLIENT_INVALIDATIONS`
+
+Applications that can't tolerate duplicate event callbacks can disable client-side invalidation events. [Read more...](/docs/1.x/events).
 
 ## `OPT_ALLOW_PATTERNS`
 
@@ -47,16 +51,6 @@ $relay->setOption(Relay::OPT_IGNORE_PATTERNS, [
     'analytics:*',
     // ...
 ]);
-```
-
-## `OPT_CLIENT_INVALIDATIONS`
-
-By default Relay will perform instantaneous client-side invalidation when a key is changed without waiting for Redis to send us an `INVALIDATE` message. The invalidation occurs **only in the same FPM pool**.
-
-If you want to disable this behavior and wait for TCP round trips, you can disable this behavior:
-
-```php
-$relay->setOption(Relay::OPT_CLIENT_INVALIDATIONS, false);
 ```
 
 ## `OPT_THROW_ON_ERROR`
