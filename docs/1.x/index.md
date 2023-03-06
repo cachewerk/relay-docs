@@ -4,6 +4,7 @@
 - ##### Getting Started
   - [Installation](/docs/1.x/installation)
   - [Configuration](/docs/1.x/configuration)
+  - [Integrations](/docs/1.x/integrations)
 - ##### The Basics
   - [Connections](/docs/1.x/connections)
   - [Events](/docs/1.x/events)

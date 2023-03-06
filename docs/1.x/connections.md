@@ -6,7 +6,11 @@ title: Connections
 
 [TOC]
 
-Relay can be used just like PhpRedis:
+## Overview
+
+Relay treats all connections as persistent by default, meaning each PHP worker will open its own dedicated connection to Redis and it will be re-used between invocations.
+
+Establishing connections with Relay can be done just like using PhpRedis:
 
 ```php
 $redis = new Relay;
@@ -14,11 +18,9 @@ $redis->connect('127.0.0.1', 6379);
 $redis->auth('secret');
 ```
 
-Relay additionally does connection pooling and __shares socket connections__ to Redis within the same worker process when possible.
-
 ## Authentication
 
-Given that all of Relay’s connections are persistent, it has to store passwords in memory. To protect against side-channel attacks, all secrets are encrypted with the [XTEA block cipher](https://en.wikipedia.org/wiki/XTEA), and decoded only when needed for authentication/re-authentication.
+Given that all of Relay’s connections are persistent, it has to store Redis credentials in memory. To protect against side-channel attacks, all secrets are encrypted with the [XTEA block cipher](https://en.wikipedia.org/wiki/XTEA), and decoded only when needed for authentication/re-authentication.
 
 To authenticate, use the `auth()` method:
 
@@ -31,7 +33,7 @@ $relay->auth('password');
 $relay->auth(['username', 'password']);
 ```
 
-When using Relay’s modern syntax, use the `context` parameter:
+When using Relay’s constructor syntax, use the `context` parameter:
 
 ```php
 $relay = new Relay(
