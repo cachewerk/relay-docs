@@ -5,7 +5,7 @@ title: API
 # API
 
 Relay's API is available in a searchable format on [docs.relay.so/api](https://docs.relay.so/api/develop/).
-Additionally, all [builds](https://github.com/cachewerk/relay/releases) include a `relay.stub.php` file, which outlines that build’s classes and their APIs.
+Additionally, all [builds](https://relay.so/builds) include a `relay.stub.php` file, which outlines that build’s classes and their APIs.
 
 ## Stubs
 
