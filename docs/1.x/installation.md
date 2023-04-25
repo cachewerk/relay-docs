@@ -367,11 +367,10 @@ That's it, enjoy!
 ### TLDR
 
 First, ensure that the `json`, `igbinary` and `msgpack` PHP extensions are installed for all PHP installations (CLI, FPM, etc).
-
 Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
 
 ```bash
-RELAY_VERSION="v0.6.3"
+RELAY_VERSION="v0.6.3"                         # https://builds.r2.relay.so/meta/latest
 RELAY_PHP=$(php-config --version | cut -c -3)  # 8.1
 RELAY_INI_DIR=$(php-config --ini-dir)          # /etc/php/8.1/cli/conf.d/
 RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902
