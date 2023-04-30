@@ -4,8 +4,8 @@ title: API
 
 # API
 
-Relay's API is available in a searchable format on [docs.relay.so/api](https://docs.relay.so/api/develop/).
-Additionally, all [builds](https://relay.so/builds) include a `relay.stub.php` file, which outlines that build’s classes and their APIs.
+Relay's API is available in a searchable format at [docs.relay.so/api](https://docs.relay.so/api/develop/).
+Additionally, all [builds](/docs/1.x/builds) include a `relay.stub.php` file, which outlines that build’s classes and their APIs.
 
 ## Stubs
 
