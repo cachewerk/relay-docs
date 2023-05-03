@@ -33,7 +33,7 @@ relay.maxmemory = 0
 | `relay.key`                    |                  | Relay license key. Without a license key Relay will throttle to 16MB memory one hour after startup. |
 | `relay.environment`            | `development`    | The environment Relay is running in. Supported values: `production`, `staging`, `testing`, `development` |
 | `relay.maxmemory`              | `32M`            | How much memory Relay allocates on startup. This value can either be a number like `134217728` [or a unit](https://php.net/manual/faq.using.php#faq.using.shorthandbytes) (e.g. `128M`) like `memory_limit`. Relay will allocate at least 16M for overhead structures. Set to `0` to disable in-memory caching and use as client only. |
-| `relay.maxmemory_pct`          | `75`             | At what percentage of used memory should Relay start evicting keys. |
+| `relay.maxmemory_pct`          | `95`             | At what percentage of used memory should Relay start evicting keys. |
 | `relay.eviction_policy`        | `noeviction`     | How should relay evict keys. This has been designed to mirror Redis’ options and we currently support `noeviction`, `lru`, and `random`. |
 | `relay.eviction_sample_keys`   | `128`            | How many keys should we scan each time we process evictions. |
 | `relay.default_pconnect`       | `1`              | Default to using a persistent connection when calling `connect()`. |
