@@ -14,6 +14,6 @@ Similar to Redis, you may alter the eviction policy used when the memory limit i
 
 | Policy       | Description |
 | ------------ | ----------- |
-| `noeviction` | Throws an exception if the memory limit has been reached when trying to insert more data |
+| `noeviction` | Once the in-memory cache is full all uncached keys will be proxied to Redis |
 | `random`     | Randomly evicts keys out of all keys when `relay.maxmemory_pct` is reached |
 | `lru`        | Evicts the least recently used keys out of all keys when `relay.maxmemory_pct` is reached |
