@@ -14,7 +14,7 @@ It’s strongly recommended to set the `relay.maxmemory`, `relay.eviction_policy
 
 ## Memory limits
 
-Relay will allocate what `relay.maxmemory` is set to when PHP starts, even if no `relay.key`. However if no valid license was set, after 60 minutes of runtime, Relay will downsize the allocated memory to its hard limit of 32 MB.
+Relay will allocate what `relay.maxmemory` is set to when PHP starts, even if no `relay.key`. However if no valid license was set, after 60 minutes of runtime, Relay will downsize the allocated memory to its hard limit of 16 MB.
 
 ## Disabling the cache
 
@@ -30,7 +30,7 @@ relay.maxmemory = 0
 
 | Directive                      | Default          | Description                                                         |
 | ------------------------------ | ---------------- | ------------------------------------------------------------------- |
-| `relay.key`                    |                  | Relay license key. Without a license key Relay will throttle to 32MB memory one hour after startup. |
+| `relay.key`                    |                  | Relay license key. Without a license key Relay will throttle to 16MB memory one hour after startup. |
 | `relay.environment`            | `development`    | The environment Relay is running in. Supported values: `production`, `staging`, `testing`, `development` |
 | `relay.maxmemory`              | `32M`            | How much memory Relay allocates on startup. This value can either be a number like `134217728` [or a unit](https://php.net/manual/faq.using.php#faq.using.shorthandbytes) (e.g. `128M`) like `memory_limit`. Relay will allocate at least 16M for overhead structures. Set to `0` to disable in-memory caching and use as client only. |
 | `relay.maxmemory_pct`          | `75`             | At what percentage of used memory should Relay start evicting keys. |

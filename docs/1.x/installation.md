@@ -309,7 +309,7 @@ Almost! Let's [configure](/docs/1.x/configuration) Relay.
 In testing environments you can skip this step, but for production setups we recommend setting at least:
 
 ```ini
-relay.maxmemory = 32M
+relay.maxmemory = 128M
 relay.eviction_policy = noeviction
 relay.environment = production
 relay.key = 1L0O-KF0R-W4RDT0-Y0URR3P-0RTMRBR-OCC0L1
