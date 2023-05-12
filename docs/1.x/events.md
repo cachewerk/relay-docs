@@ -10,7 +10,7 @@ title: Events
 
 Relay’s in-memory cache is exceptionally fast and reliable, however some scenarios such as long-running processes or highly concurrent applications, event listeners can be used to avoid race conditions and stale caches.
 
-On distributed infrastructures Relay will execute event callbacks roughly `0.1ms` after the key changed in Redis. If a key is deleted or altered using Relay itself, it will perform [client-side invalidation](#client-side-invalidation) and __additionally__ execute event listeners instantaneously on all workers in the same PHP process pool.
+On distributed infrastructures Relay will execute event callbacks `0.01ms` after the key changed in Redis. If a key is deleted or altered using Relay itself, it will perform [client-side invalidation](#client-side-invalidation) and __additionally__ execute event listeners instantaneously on all workers in the same PHP process pool.
 
 Event listeners are executed, after Relay invalidated keys in its in-memory cache.
 
