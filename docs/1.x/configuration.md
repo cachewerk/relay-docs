@@ -42,4 +42,4 @@ relay.maxmemory = 0
 | `relay.initial_readers`        | `128`            | The number of epoch readers allocated on startup. |
 | `relay.invalidation_poll_freq` | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis. |
 | `relay.loglevel`               | `off`            | Whether Relay should log debug information. Supported levels: `debug`, `verbose`, `error`, `off` |
-| `relay.logfile`                | `/tmp/relay.log` | The path to the file in which information should be logged, if logging is enabled. |
+| `relay.logfile`                | | The path to the file in which information should be logged, if logging is enabled. |
