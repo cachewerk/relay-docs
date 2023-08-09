@@ -247,15 +247,14 @@ If we're missing a build for your particular system or architecture, please [ope
 ### 5. System dependencies
 
 Relay requires several system libraries (OpenSSL, hiredis, Concurrency Kit, Zstandard, LZ4).
-All Relay builds come with a `relay.so` and `relay-pkg.so`. The `relay-pkg.so` comes with hiredis and ck bundled in, because:
+All Relay builds come with a `relay.so` and a `relay-pkg.so`, the latter comes with with `hiredis` and `ck` bundled in, because:
 
-1. Relay requires hiredis `>=1.1.0` (which hasn't been released)
+1. Relay requires hiredis `>=1.1.0`
 2. Relay on Silicon requires ck `>=0.7.1` (which also hasn't been released)
 
 The OpenSSL dependency can be ignored, because it's typically installed along with PHP.
 
-While you _could_ use the `relay.so` today and have all libraries linked dynamically,
-we recommend using `relay-pkg.so` for convenience.
+While you _should_ use the `relay.so` today and have all libraries linked dynamically, you may use the `relay-pkg.so` for convenience.
 
 Alright, now make sure the `relay-pkg.so` has all its dependencies using `ldd` (or `otool` on macOS):
 
