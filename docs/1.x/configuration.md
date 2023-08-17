@@ -30,7 +30,7 @@ relay.maxmemory = 0
 
 | Directive                      | Default          | Description                                                         |
 | ------------------------------ | ---------------- | ------------------------------------------------------------------- |
-| `relay.key`                    |                  | Relay license key. Without a license key Relay will throttle to 16MB memory one hour after startup. |
+| `relay.key`                    |                  | Relay license key. Without a license key Relay will throttle to 16MB memory one hour after startup. May also be set via `RELAY_KEY` environment variable. |
 | `relay.environment`            | `development`    | The environment Relay is running in. Supported values: `production`, `staging`, `testing`, `development` |
 | `relay.maxmemory`              | `32M`            | How much memory Relay allocates on startup. This value can either be a number like `134217728` [or a unit](https://php.net/manual/faq.using.php#faq.using.shorthandbytes) (e.g. `128M`) like `memory_limit`. Relay will allocate at least 16M for overhead structures. Set to `0` to disable in-memory caching and use as client only. |
 | `relay.maxmemory_pct`          | `95`             | At what percentage of used memory should Relay start evicting keys. |
