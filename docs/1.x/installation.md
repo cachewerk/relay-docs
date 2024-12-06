@@ -112,6 +112,17 @@ php --ri relay
 
 Finally, restart PHP-FPM and the web server.
 
+## Using PIE
+
+Relay can be installed using [PHP PIE](https://github.com/php/pie):
+
+```basb
+pie install cachewerk/relay
+
+# install for a specific PHP version:
+pie install --with-php-config=/usr/bin/php-config7.4 cachewerk/relay
+```
+
 ## Heroku
 
 To use Relay on Heroku, add the platform repository to the Heroku app:
