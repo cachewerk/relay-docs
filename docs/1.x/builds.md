@@ -16,7 +16,8 @@ curl "https://builds.r2.relay.so/meta/latest"
 wget -q -O- "https://builds.r2.relay.so/meta/latest"
 
 curl -s "https://api.github.com/repos/cachewerk/relay/releases/latest" \
-  | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
+  | grep '"tag_name":' \
+  | sed -E 's/.*"([^"]+)".*/\1/'
 ```
 
 ## Releases
