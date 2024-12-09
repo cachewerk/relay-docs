@@ -14,3 +14,4 @@
   - [API](/docs/1.x/api)
   - [Builds](/docs/1.x/builds)
   - [Compatibility](/docs/1.x/compatibility)
+  - [Errors](/docs/1.x/errors)
