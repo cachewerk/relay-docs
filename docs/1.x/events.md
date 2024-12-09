@@ -18,8 +18,9 @@ Event listeners are executed, after Relay invalidated keys in its in-memory cach
 
 | Event                      | Description                                                        |
 | -------------------------- | ------------------------------------------------------------------ |
-| `Relay\Event::Flushed`     | Dispatched when the connection’s database was flushed, right after Relay wiped it’s in-memory cache |
-| `Relay\Event::Invalidated` | Dispatched when a key that the current instance previously interacted with was deleted or altered in any way, right after Relay removed the key from it’s in-memory cache |
+| `Relay\Event`              | An abstract class that is the base for all other event classes |
+| `Relay\Event\Flushed`      | Dispatched when the connection’s database was flushed, right after Relay wiped it’s in-memory cache |
+| `Relay\Event\Invalidated`  | Dispatched when a key that the current instance previously interacted with was deleted or altered in any way, right after Relay removed the key from it’s in-memory cache |
 
 Event listeners can be any PHP `callable` type and are registered using the `listen()`, `onFlushed()` and `onInvalidated()` methods.
 
@@ -27,9 +28,9 @@ Event listeners can be any PHP `callable` type and are registered using the `lis
 use Relay\Event;
 
 $relay->listen(function (Event $event) {
-    match ($event->type) {
-        Event::Flushed => flushCache(),
-        Event::Invalidated => deleteKeyFromCache($event->key),
+    match ($event::class) {
+        Event\Flushed::class => flushCache(),
+        Event\Invalidated::class => deleteKeyFromCache($event->key),
     };
 });
 ```
