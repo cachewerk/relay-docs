@@ -46,7 +46,7 @@ relay.maxmemory = 0
 | `relay.cluster.seeds`             |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=127.0.0.1:7000&cluster2[]=127.0.0.1:8000` |
 | `relay.cluster.auth`              |                  | The list of credentials for each cluster, encoded as URL query string. Password string or username/password pairs may be used, e.g. `cluster1=secret&cluster2[]=username&cluster2[]=secret` |
 | `relay.cluster.timeout`           |                  | The maximum number of seconds Relay will wait while establishing connection to a single cluster node. |
-| `relay.cluster.read_timeout`      |                  |  The maximum number of seconds Relay will wait while reading from a cluster node. |
+| `relay.cluster.read_timeout`      |                  | The maximum number of seconds Relay will wait while reading from a cluster node. |
 | `relay.session.locking_enabled`   | `0`              | Whether to enable session locking to avoid race conditions and keep session data consistent across requests. |
 | `relay.session.lock_expire`       | `0`              | The number of seconds while Relay will try to acquire lock. When value is zero or negative `max_execution_time` will be used. |
 | `relay.session.lock_retries`      | `0`              | The number of attempts Relay will try to acquire lock. If value is zero or negative `100` will be used to be compatible with PhpRedis. |
