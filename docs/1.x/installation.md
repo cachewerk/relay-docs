@@ -79,6 +79,7 @@ Then, depending on the setup, install either Relay for a specific PHP version, o
 ```bash
 sudo apt install php-relay     # default php version
 sudo apt install php8.1-relay  # specific php version
+sudo apt install lsphp81-relay # for litespeed setups
 ```
 
 Next, ensure that Relay was installed by running:
@@ -102,6 +103,7 @@ Then, depending on the setup, install either Relay for a specific PHP version, o
 ```bash
 yum install relay-php        # single php version
 yum install php81-php-relay  # multiple php versions
+yum install lsphp81-relay    # for litespeed setups
 ```
 
 Next, ensure that Relay was installed by running:
@@ -111,6 +113,17 @@ php --ri relay
 ```
 
 Finally, restart PHP-FPM and the web server.
+
+## Using PIE
+
+Relay can be installed using [PHP PIE](https://github.com/php/pie):
+
+```basb
+pie install cachewerk/relay
+
+# install for a specific PHP version:
+pie install --with-php-config=/usr/bin/php-config7.4 cachewerk/relay
+```
 
 ## Heroku
 
