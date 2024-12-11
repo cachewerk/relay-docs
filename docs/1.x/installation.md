@@ -79,6 +79,7 @@ Then, depending on the setup, install either Relay for a specific PHP version, o
 ```bash
 sudo apt install php-relay     # default php version
 sudo apt install php8.1-relay  # specific php version
+sudo apt install lsphp81-relay # for litespeed setups
 ```
 
 Next, ensure that Relay was installed by running:
@@ -102,6 +103,7 @@ Then, depending on the setup, install either Relay for a specific PHP version, o
 ```bash
 yum install relay-php        # single php version
 yum install php81-php-relay  # multiple php versions
+yum install lsphp81-relay    # for litespeed setups
 ```
 
 Next, ensure that Relay was installed by running:
