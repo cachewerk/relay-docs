@@ -52,4 +52,4 @@ relay.maxmemory = 0
 | `relay.session.lock_retries`      | `0`              | The number of attempts Relay will try to acquire lock. If value is zero or negative `100` will be used to be compatible with PhpRedis. |
 | `relay.session.lock_wait_time`    | `0`              | The number of microseconds Relay will wait between each attempt to acquire lock. If value is zero or negative `20000` will be used to be compatible with PhpRedis. |
 | `relay.session.compression`       | `none`           | Compression algorithm used for session data. Supported values: `lzf`, `lz4`, `zstd` and `none` |
-| `relay.session.compression_level` |                  | The used compression level. |
+| `relay.session.compression_level` |                  | The used compression level. An empty value means the algorithm default compression level will be used. |
