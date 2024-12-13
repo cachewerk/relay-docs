@@ -33,7 +33,8 @@ Applications that can't tolerate duplicate event callbacks can disable client-si
 
 ## `OPT_ALLOW_PATTERNS`
 
-When `OPT_ALLOW_PATTERNS` is set only keys matching these patterns will be cached, unless they also match a pattern of the `OPT_IGNORE_PATTERNS` option.
+When `OPT_ALLOW_PATTERNS` is set only keys matching the patterns will be stored in Relay’s in-memory cache and trigger invalidation events.
+The `OPT_IGNORE_PATTERNS` option may be used in combination with `OPT_ALLOW_PATTERNS` to exclude additional keys from being cached.
 
 ```php
 $relay->setOption(Relay::OPT_ALLOW_PATTERNS, [
@@ -44,7 +45,7 @@ $relay->setOption(Relay::OPT_ALLOW_PATTERNS, [
 
 ## `OPT_IGNORE_PATTERNS`
 
-Keys matching these patterns will not be stored in Relay’s in-memory cache.
+Keys matching these patterns will not be stored in Relay’s in-memory cache and not trigger invalidation events.
 
 ```php
 $relay->setOption(Relay::OPT_IGNORE_PATTERNS, [
@@ -67,17 +68,19 @@ $relay->setOption(Relay::OPT_THROW_ON_ERROR, true);
 $redis->hgetall('name'); // throws `Relay\Exception`
 ```
 
-## PhpRedis' options
+## PhpRedis options
 
-Relay supports all of PhpRedis' `setOption()` options.
+Relay supports all of PhpRedis' options:
 
-- `OPT_READ_TIMEOUT`
-- `OPT_COMPRESSION`
-- `OPT_COMPRESSION_LEVEL`
-- `OPT_MAX_RETRIES`
 - `OPT_BACKOFF_ALGORITHM`
 - `OPT_BACKOFF_BASE`
 - `OPT_BACKOFF_CAP`
-- `OPT_SCAN`
-- `OPT_REPLY_LITERAL`
+- `OPT_COMPRESSION_LEVEL`
+- `OPT_COMPRESSION`
+- `OPT_MAX_RETRIES`
 - `OPT_NULL_MULTIBULK_AS_NULL`
+- `OPT_PREFIX`
+- `OPT_READ_TIMEOUT`
+- `OPT_REPLY_LITERAL`
+- `OPT_SCAN`
+- `OPT_TCP_KEEPALIVE`

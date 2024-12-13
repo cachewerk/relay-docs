@@ -67,7 +67,7 @@ $relay->connect(host: '127.0.0.1', timeout: 1.0, read_timeout: 1.0);
 
 ## Client-only connections
 
-In some cases it may be useful to disable Relay’s in-memory cache and have it just act like a faster PhpRedis, even when Relay did [create a shared memory](/docs/1.x/configuration#disabling-the-cache-globally).
+In some cases it may be useful to disable Relay’s in-memory cache and have it just act like a faster PhpRedis, even when Relay did [create a shared memory](/docs/1.x/configuration#disabling-the-cache).
 
 Use the `$context` parameter on `connect()` or when constructing a new instance:
 
@@ -101,4 +101,35 @@ $relay = new Relay(
         ]
     ],
 );
+```
+
+## Sentinel
+
+Relay provides the [`Relay\Sentinel`](https://docs.relay.so/api/develop/Relay/Sentinel.html) class to establish connections to [Sentinel](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/) nodes.
+
+```php
+$sentinel = new Relay\Sentinel(
+    host: 'tls://...compute-1.amazonaws.com',
+    auth: 'p4ssw0rd',
+);
+```
+
+## Cluster
+
+Relay provides the [`Relay\Cluster`](https://docs.relay.so/api/develop/Relay/Cluster.html) class to establish connections to clusters.
+
+In this dynamic topology, where the number of nodes can change over time and data may migrate between nodes, `Relay\Cluster` uses the provided configuration as an initial state. It retrieves the actual configuration from the cluster itself using the `CLUSTER SLOTS` command. To minimize the number of requests to the cluster and enhance performance, Relay stores the cluster topology in an in-memory cache. This cache is updated based on events from the cluster.
+
+```php
+$cluster = new Relay\Cluster(
+    seeds: [
+        'tls://...cache.amazonaws.com',
+    ],
+);
+```
+
+Alternatively clusters can be configured using the [`relay.cluster.*`](/docs/1.x/configuration) ini directives and passing the configured name to the class.
+
+```php
+$cluster1 = new Relay\Cluster('pleiades');
 ```
