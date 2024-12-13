@@ -13,14 +13,14 @@ Fetching a specific stub without downloading a build can be done as well:
 
 ```bash
 wget "https://builds.r2.relay.so/dev/relay.stub.php"
-curl -O "https://builds.r2.relay.so/v0.6.3/relay.stub.php"
+curl -O "https://builds.r2.relay.so/v0.9.1/relay.stub.php"
 ```
 
-## Groups
+## Attributes
 
-Similar to PHPUnit, we've included `@group` tags in the stubs to provide some metadata. 
+All methods have PHP attributes to provide some metadata which can be inspected at runtime using the Reflection APIs.
 
-- `local` indicates a method that _does not_ communicate with Redis
-- `remote` indicates a method that _may_ communicate with Redis
-- `redis` (implies `remote`) indicates a method that represents a [Redis command](https://redis.io/commands/)
-- `enhanced` indicates a method that is a Redis command that _may_ be handled in-memory
+- `Local` indicates the method _does not_ communicate with Redis
+- `Server` indicates the method that _may_ communicate with Redis
+- `RedisCommand` indicates the method represents a [command](https://redis.io/commands/)
+- `Cached` indicates the method _may_ use in-memory caching

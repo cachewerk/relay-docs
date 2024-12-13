@@ -21,7 +21,7 @@ Relay can be installed on macOS using [Homebrew](https://brew.sh).
 ```bash
 brew tap cachewerk/tap
 
-brew install relay      # PHP 8.1
+brew install relay      # PHP 8.4
 brew install relay@7.4  # PHP 7.4
 ```
 
@@ -51,7 +51,7 @@ Relay can be installed on any Linux system. We have [packages](https://github.co
 We have various [Docker examples on GitHub](https://github.com/cachewerk/relay/tree/main/docker). If you're using the official PHP Docker images you can install Relay using the `php-extension-installer`:
 
 ```docker
-FROM php:8.1-cli
+FROM php:8.4-cli
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN install-php-extensions relay
 ```
@@ -79,6 +79,7 @@ Then, depending on the setup, install either Relay for a specific PHP version, o
 ```bash
 sudo apt install php-relay     # default php version
 sudo apt install php8.1-relay  # specific php version
+sudo apt install lsphp81-relay # for litespeed setups
 ```
 
 Next, ensure that Relay was installed by running:
@@ -102,6 +103,7 @@ Then, depending on the setup, install either Relay for a specific PHP version, o
 ```bash
 yum install relay-php        # single php version
 yum install php81-php-relay  # multiple php versions
+yum install lsphp81-relay    # for litespeed setups
 ```
 
 Next, ensure that Relay was installed by running:
@@ -111,6 +113,17 @@ php --ri relay
 ```
 
 Finally, restart PHP-FPM and the web server.
+
+## Using PIE
+
+Relay can be installed using [PHP PIE](https://github.com/php/pie):
+
+```basb
+pie install cachewerk/relay
+
+# install for a specific PHP version:
+pie install --with-php-config=/usr/bin/php-config7.4 cachewerk/relay
+```
 
 ## Heroku
 
@@ -186,8 +199,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
-          extensions: relay # or `relay-v0.6.3`
+          php-version: 8.4
+          extensions: relay # or `relay-v0.9.1`
 
       - name: Dump Relay configuration
         run: |
@@ -205,7 +218,7 @@ First, you'll need to know the:
 - OS name _(CentOS, Debian)_
 - OS version
 - OS architecture _(amd64, aarch64, etc.)_
-- PHP version _(7.4, 8.1, etc.)_
+- PHP version _(7.4, 8.4, etc.)_
 
 If this is difficult or unclear, you may want to consider stopping and asking someone for help.
 
@@ -239,7 +252,7 @@ Next, [grab the URL](/builds) for the build matching the system. We'll use Ubunt
 
 ```bash
 mkdir /tmp/relay
-curl -sSL "https://builds.r2.relay.so/v0.6.3/relay-v0.6.3-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
+curl -sSL "https://builds.r2.relay.so/v0.9.1/relay-v0.9.1-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
 ```
 
 If we're missing a build for your particular system or architecture, please [open an issue](https://github.com/cachewerk/relay/issues).
@@ -369,7 +382,7 @@ First, ensure that the `json`, `igbinary` and `msgpack` PHP extensions are insta
 Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
 
 ```bash
-RELAY_VERSION="v0.6.3"                         # https://builds.r2.relay.so/meta/latest
+RELAY_VERSION="v0.9.1"                         # https://builds.r2.relay.so/meta/latest
 RELAY_PHP=$(php-config --version | cut -c -3)  # 8.1
 RELAY_INI_DIR=$(php-config --ini-dir)          # /etc/php/8.1/cli/conf.d/
 RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902
