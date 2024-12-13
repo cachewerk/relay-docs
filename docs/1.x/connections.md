@@ -102,3 +102,53 @@ $relay = new Relay(
     ],
 );
 ```
+
+## Sentinel
+
+Relay provides `Relay\Sentinel` class to establish connection to sentinel instance.  
+Establishing connections can be done just like using PhpRedis (compatible with both 5.x and 6.x):
+
+```php
+$sentinel = new Relay\Sentinel(
+    host: 'localhost',
+    auth: 'secret',
+);
+```
+
+```php
+$sentinel = new Relay\Sentinel([
+    'host' => 'localhost',
+    'context' => [
+        'stream' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ]
+    ],
+]);
+```
+
+## Cluster
+
+Relay provides `Relay\Cluster` class to work with Redis Cluster. As it is dynamic topology where number of nodes may change ove time and data may migrate between nodes `Relay\Cluster` uses provided configuration as initial state and ensures of actual configuration from cluster itself using `CLUSTER SLOTS` command.  
+To reduce number of request to the cluster and improve performance Relay stores cluster topology to in-memory cache and resets it by events from cluster.  
+There are two ways to set initial cluster configuration just like in PhpRedis: via INI settings and as class constructor parameters.
+
+### Providing configuration as named clusters INI settings
+
+Multiple named clusters may be set to `relay.cluster.*` INI directives, e.g. `relay.cluster.seeds=cluster1[]=127.0.0.1:7000&cluster2[]=127.0.0.1:8000`, `relay.cluster.timeout=cluster1=2&cluster2=5` and instantiate by passing these names as a first parameter of `Relay\Cluster` constructor
+
+```php
+$cluster1 = new Relay\Cluster('cluster1');
+$cluster2 = new Relay\Cluster('cluster2');
+```
+
+### Providing configuration as a constructor parameters
+
+```php
+$cluster = new Relay\Cluster(
+    name: null,
+    seeds: ['127.0.0.1:7000'],
+    timeout: 1,
+    read_timeout: 5,
+);
+```
