@@ -8,6 +8,7 @@
 - ##### The Basics
   - [Connections](/docs/1.x/connections)
   - [Events](/docs/1.x/events)
+  - [Tables](/docs/1.x/tables)
   - [Options](/docs/1.x/options)
   - [Eviction](/docs/1.x/eviction)
 - ##### Digging Deeper
