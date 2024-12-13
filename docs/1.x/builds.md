@@ -33,5 +33,5 @@ curl "https://builds.r2.relay.so/meta/builds"
 Each release has a `artifacts.json` that contains the various build artifacts.
 
 ```bash
-curl "https://builds.r2.relay.so/v0.6.3/artifacts.json"
+curl "https://builds.r2.relay.so/v0.9.1/artifacts.json"
 ```
