@@ -4,13 +4,15 @@ title: Configuration
 
 # Configuration
 
-Relay provides several configuration directives and the `relay.ini` file is easily located by running:
+Relay provides many configuration directives and the `relay.ini` file can be located by running:
 
 ```bash
 php --ini
 ```
 
-It’s strongly recommended to set the `relay.maxmemory`, `relay.eviction_policy` and `relay.databases` directives. If you're running a licensed binary, be sure to set the `relay.key` and `relay.environment` as well.
+It’s recommend to at least adjust the `relay.maxmemory` and `relay.eviction_policy` directives. If you're running a licensed binary, be sure to set the `relay.key` and `relay.environment` as well.
+
+For peak performance the `relay.locks.cache` and `relay.max_endpoint_dbs` values should be benchmarked.
 
 ## Memory limits
 
@@ -20,11 +22,7 @@ Relay will allocate what `relay.maxmemory` is set to when PHP starts, even if no
 
 Sometimes you may wish to install the Relay extension, but not have it allocate memory, either because you want to only use it as a faster alternative to PhpRedis, or to keep it dormant for future use.
 
-You may disable all in-memory caching and memory allocation by setting:
-
-```ini
-relay.maxmemory = 0
-```
+To disable all in-memory caching and memory allocation `relay.maxmemory` can be set to `0`.
 
 ## Configuration directives
 
@@ -41,6 +39,8 @@ relay.maxmemory = 0
 | `relay.max_endpoint_dbs`          | `4`              | The maximum number of PHP workers that will have their own in-memory cache. This setting is per connection endpoint (distinct Redis connections), e.g. connecting to two separate instances will double the workers. |
 | `relay.initial_readers`           | `128`            | The number of epoch readers allocated on startup. |
 | `relay.invalidation_poll_freq`    | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis. |
+| `relay.locks.allocator`           | `mutex`          | Locking mechanism used for the allocator. Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
+| `relay.locks.cache`               | `mutex`          | Locking mechanism used for the cache (databases). Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
 | `relay.loglevel`                  | `off`            | Whether Relay should log debug information. Supported levels: `debug`, `verbose`, `error`, `off` |
 | `relay.logfile`                   |                  | The path to the file in which information should be logged, if logging is enabled. |
 | `relay.cluster.seeds`             |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=127.0.0.1:7000&cluster2[]=127.0.0.1:8000` |
@@ -53,6 +53,14 @@ relay.maxmemory = 0
 | `relay.session.lock_wait_time`    | `0`              | The number of microseconds Relay will wait between each attempt to acquire lock. If value is zero or negative `20000` will be used to be compatible with PhpRedis. |
 | `relay.session.compression`       | `none`           | Compression algorithm used for session data. Supported values: `lzf`, `lz4`, `zstd` and `none` |
 | `relay.session.compression_level` |                  | The used compression level. An empty value means the algorithm default compression level will be used. |
+
+## `relay.locks.cache`
+
+The locking mechanism used for the cache (in-memory databases) and allocator can be configured for ideal performance.
+
+- `spinlock`: The lowest latency lock which will busy-wait until the lock is available. This is likely the right choice on machines with only a few cores.
+- `mutex`: When contention is detected, this lock will sleep until it is available. It has higher latency than a spinlock but uses far less CPU. On machines with many cores it is likely the right choice.
+- `adaptive-mutex`: This lock is a hybrid of the two above. When contention is detected it will first spin waiting for the lock to free and then sleep if the lock is still not available. Each time it spins it will update its strategy depending on how long it took. Only available on glibc Linux systems.
 
 ## `relay.max_endpoint_dbs`
 
