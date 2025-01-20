@@ -56,27 +56,11 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 
 ## `relay.locks.cache`
 
-The lock used for the cache (and allocator) 
+The locking mechanism used for the cache (in-memory databases) and allocator can be configured for ideal performance.
 
-The following settings determine which kind of lock is used for Relay's
-; allocator and our in-memory databases. These locks can be one of two or
-; three types, depending on the system.
-;
-; * spinlock
-;   The lowest latency lock which will busywait until the lock is
-;   available. This is likely the right choice on systems with only
-;   a few cores.
-;
-; * mutex
-;   When contention is detected, this lock will sleep until it is available.
-;   It has higher latency than a spinlock but uses far less CPU. On very large
-;   instances, it is likely the right choice.
-;
-; * adaptive-mutex (Only on on glibc Linux systems)
-;   This lock is a hybrid of the two above. When contention is detected it will
-;   first spin waiting for the lock to free and then sleep if the lock is still
-;   not available. Each time it spins it will update its strategy depending on
-;   how long it took.
+- `spinlock`: The lowest latency lock which will busy-wait until the lock is available. This is likely the right choice on machines with only a few cores.
+- `mutex`: When contention is detected, this lock will sleep until it is available. It has higher latency than a spinlock but uses far less CPU. On machines with many cores it is likely the right choice.
+- `adaptive-mutex`: This lock is a hybrid of the two above. When contention is detected it will first spin waiting for the lock to free and then sleep if the lock is still not available. Each time it spins it will update its strategy depending on how long it took. Only available on glibc Linux systems.
 
 ## `relay.max_endpoint_dbs`
 
