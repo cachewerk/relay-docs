@@ -21,7 +21,7 @@ This directive determines the maximum number of PHP workers with their own in-me
 The default of `32` should be adjusted to:
 
 ```
-max_endpoint_dbs = min(vcpus, workers);
+max_endpoint_dbs = min(vcpus, workers)
 ```
 
 When using `relay.locks.cache = spinlock` a lower number like `4` will likely perform well.
