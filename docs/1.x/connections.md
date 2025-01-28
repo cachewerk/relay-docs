@@ -8,7 +8,7 @@ title: Connections
 
 ## Overview
 
-Relay treats all connections as persistent by default, meaning each PHP worker will open its own dedicated connection to Redis and it will be re-used between invocations.
+Relay treats all connections as persistent by default, meaning each PHP worker will open its own dedicated connection to Redis and it will be reused between invocations.
 
 Establishing connections with Relay can be done just like using PhpRedis:
 
