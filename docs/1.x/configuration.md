@@ -34,13 +34,13 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.maxmemory_pct`             | `95`             | At what percentage of used memory should Relay start evicting keys. |
 | `relay.eviction_policy`           | `noeviction`     | How should relay evict keys. This has been designed to mirror Redis’ options. Supported values: `noeviction`, `lru`, and `random` |
 | `relay.eviction_sample_keys`      | `128`            | How many keys should we scan each time we process evictions. |
-| `relay.default_pconnect`          | `1`              | Default to using a persistent connection when calling `connect()`. |
 | `relay.databases`                 | `16`             | The number of databases Relay will create per in-memory cache. This setting should match the `databases` setting in your `redis.conf`. |
 | `relay.max_endpoint_dbs`          | `32`             | The maximum number of PHP workers that will have their own in-memory cache. See [Performance](/docs/1.x/performance) section. |
+| `relay.locks.allocator`           | `mutex`          | Locking mechanism used for the allocator. Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
+| `relay.locks.cache`               | `mutex`          | Locking mechanism used for the in-memory cache (databases). Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
+| `relay.default_pconnect`          | `1`              | Default to using a persistent connection when calling `connect()`. |
 | `relay.initial_readers`           | `128`            | The number of epoch readers allocated on startup. |
 | `relay.invalidation_poll_freq`    | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis. |
-| `relay.locks.allocator`           | `mutex`          | Locking mechanism used for the allocator. Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
-| `relay.locks.cache`               | `mutex`          | Locking mechanism used for the cache (databases). Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
 | `relay.loglevel`                  | `off`            | Whether Relay should log debug information. Supported levels: `debug`, `verbose`, `error`, `off` |
 | `relay.logfile`                   |                  | The path to the file in which information should be logged, if logging is enabled. |
 | `relay.cluster.seeds`             |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=127.0.0.1:7000&cluster2[]=127.0.0.1:8000` |
