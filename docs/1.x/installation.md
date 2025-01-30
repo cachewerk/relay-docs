@@ -12,7 +12,7 @@ Before installing Relay, make sure the system meets the requirements:
 
 - PHP 7.4+
 - Redis Server 6.2.7+
-- The `json`, `igbinary` and `msgpack` PHP extensions
+- The `json`, `session`, `igbinary` and `msgpack` PHP extensions
 
 ## macOS
 
