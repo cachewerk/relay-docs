@@ -18,10 +18,10 @@ The default locking mechanism used for the in-memory cache and allocator is `ada
 
 This directive determines the maximum number of PHP workers with their own in-memory cache. While each PHP worker will have its own connection to Redis, not all workers need their own in-memory cache, and can be read-only workers that read from the shared memory pool. Giving too many workers an in-memory cache can negatively impact performance.
 
-The default of `32` should be adjusted the number of cores or maxium workers, whichever is lower.
+The default of `32` should be adjusted the number of cores or maximum workers, whichever is lower.
 
 ```
 max_endpoint_dbs = min(cores, pm.max_children)
 ```
 
-If `cax_endpoint_dbs` is enabled (default) then `max_endpoint_dbs` will be capped to the number of detected CPU cores. When using `spinlock` on a machine with few cores a lower number like `4` will likely perform well.
+By default `cap_endpoint_dbs` is enabled which will cap `max_endpoint_dbs` to the number of detected CPU cores. When using `spinlock` on a machine with few cores a lower number like `4` will likely perform well.
