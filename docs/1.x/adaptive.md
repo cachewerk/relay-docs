@@ -14,7 +14,8 @@ $relay = new Relay(
     port: 6379,
     context: [
         'adaptive-cache' => [
-            // Number of horizontal cells. Ideally this should scale with the number of unique keys in the database. Supported values: 512 - 2^31.
+            // Number of horizontal cells. Ideally this should scale with the
+            // number of unique keys in the database. Supported values: 512 - 2^31.
             'width' => 100_000,
 
             // Number of vertical cells. Supported values: 1 - 8.
