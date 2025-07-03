@@ -41,13 +41,14 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.locks.cache`               | `mutex`          | Locking mechanism used for the in-memory cache (databases). Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
 | `relay.default_pconnect`          | `1`              | Default to using a persistent connection when calling `connect()`. |
 | `relay.initial_readers`           | `128`            | The number of epoch readers allocated on startup. |
-| `relay.invalidation_poll_freq`    | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis. |
+| `relay.invalidation_poll_freq`    | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis/Valkey. |
 | `relay.loglevel`                  | `off`            | Whether Relay should log debug information. Supported levels: `debug`, `verbose`, `error`, `off` |
 | `relay.logfile`                   |                  | The path to the file in which information should be logged, if logging is enabled. |
 | `relay.cluster.seeds`             |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=127.0.0.1:7000&cluster2[]=127.0.0.1:8000` |
 | `relay.cluster.auth`              |                  | The list of credentials for each cluster, encoded as URL query string. Password string or username/password pairs may be used, e.g. `cluster1=secret&cluster2[]=username&cluster2[]=secret` |
 | `relay.cluster.timeout`           |                  | The maximum number of seconds Relay will wait while establishing connection to a single cluster node. |
 | `relay.cluster.read_timeout`      |                  | The maximum number of seconds Relay will wait while reading from a cluster node. |
+| `relay.cluster.slot_cache_expiry` |                  | ??? |
 | `relay.session.locking_enabled`   | `0`              | Whether to enable session locking to avoid race conditions and keep session data consistent across requests. |
 | `relay.session.lock_expire`       | `0`              | The number of seconds while Relay will try to acquire lock. When value is zero or negative `max_execution_time` will be used. |
 | `relay.session.lock_retries`      | `0`              | The number of attempts Relay will try to acquire lock. If value is zero or negative `100` will be used to be compatible with PhpRedis. |

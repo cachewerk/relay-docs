@@ -7,10 +7,11 @@
   - [Integrations](/docs/1.x/integrations)
 - ##### The Basics
   - [Connections](/docs/1.x/connections)
-  - [Events](/docs/1.x/events)
-  - [Tables](/docs/1.x/tables)
-  - [Options](/docs/1.x/options)
   - [Eviction](/docs/1.x/eviction)
+  - [Events](/docs/1.x/events)
+  - [Ratios](/docs/1.x/events)
+  - [Options](/docs/1.x/options)
+  - [Tables](/docs/1.x/tables)
 - ##### Digging Deeper
   - [Performance](/docs/1.x/performance)
   - [Compatibility](/docs/1.x/compatibility)
