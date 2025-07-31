@@ -20,7 +20,8 @@ curl -O "https://builds.r2.relay.so/v0.9.1/relay.stub.php"
 
 All methods have PHP attributes to provide some metadata which can be inspected at runtime using the Reflection APIs.
 
-- `Local` indicates the method _does not_ communicate with Redis
-- `Server` indicates the method that _may_ communicate with Redis
+- `Local` indicates the method _does not_ communicate with Redis/Valkey
+- `Server` indicates the method that _may_ communicate with Redis/Valkey
 - `RedisCommand` indicates the method represents a [command](https://redis.io/commands/)
+- `ValkeyCommand` indicates the method represents a [command](https://valkey.io/commands/)
 - `Cached` indicates the method _may_ use in-memory caching
