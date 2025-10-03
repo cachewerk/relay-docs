@@ -200,7 +200,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.4
-          extensions: relay # or `relay-v0.9.1`
+          extensions: relay # or `relay-v0.12.0`
 
       - name: Dump Relay configuration
         run: |
@@ -252,7 +252,7 @@ Next, [grab the URL](/builds) for the build matching the system. We'll use Ubunt
 
 ```bash
 mkdir /tmp/relay
-curl -sSL "https://builds.r2.relay.so/v0.9.1/relay-v0.9.1-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
+curl -sSL "https://builds.r2.relay.so/v0.12.0/relay-v0.12.0-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
 ```
 
 If we're missing a build for your particular system or architecture, please [open an issue](https://github.com/cachewerk/relay/issues).
@@ -382,7 +382,7 @@ First, ensure that the `json`, `igbinary` and `msgpack` PHP extensions are insta
 Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
 
 ```bash
-RELAY_VERSION="v0.9.1"                         # https://builds.r2.relay.so/meta/latest
+RELAY_VERSION="v0.12.0"                        # https://builds.r2.relay.so/meta/latest
 RELAY_PHP=$(php-config --version | cut -c -3)  # 8.1
 RELAY_INI_DIR=$(php-config --ini-dir)          # /etc/php/8.1/cli/conf.d/
 RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902
