@@ -389,7 +389,7 @@ RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902
 RELAY_ARCH=$(arch | sed -e 's/arm64/aarch64/;s/amd64\|x86_64/x86-64/')
 
 RELAY_ARTIFACT="https://builds.r2.relay.so/$RELAY_VERSION/relay-$RELAY_VERSION-php$RELAY_PHP-debian-$RELAY_ARCH.tar.gz"
-RELAY_TMP_DIR=$(mktemp -dt relay)
+RELAY_TMP_DIR=$(mktemp -dt relay-XXXXX)
 
 ## Download artifact
 curl -sSL $RELAY_ARTIFACT | tar -xz --strip-components=1 -C $RELAY_TMP_DIR
