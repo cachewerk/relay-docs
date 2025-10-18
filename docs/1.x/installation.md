@@ -200,7 +200,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.4
-          extensions: relay # or `relay-v0.12.0`
+          extensions: relay
+          # extensions: relay-0.12.1
+          # extensions: relay-nightly
 
       - name: Dump Relay configuration
         run: |
