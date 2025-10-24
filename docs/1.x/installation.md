@@ -265,16 +265,16 @@ Relay requires several system libraries (OpenSSL, hiredis, Concurrency Kit, Zsta
 All Relay builds come with a `relay.so` and a `relay-pkg.so`, the latter comes with with `hiredis` and `ck` bundled in, because:
 
 1. Relay requires hiredis `>=1.1.0`
-2. Relay on Silicon requires ck `>=0.7.1` (which also hasn't been released)
+2. Relay on Silicon requires ck `>=0.7.1`
 
 The OpenSSL dependency can be ignored, because it's typically installed along with PHP.
 
 While you _should_ use the `relay.so` today and have all libraries linked dynamically, you may use the `relay-pkg.so` for convenience.
 
-Alright, now make sure the `relay-pkg.so` has all its dependencies using `ldd` (or `otool` on macOS):
+Alright, now make sure the `relay.so` has all its dependencies using `ldd` (or `otool` on macOS):
 
 ```bash
-ldd /tmp/relay/relay-pkg.so
+ldd /tmp/relay/relay.so
 
 # libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000ffff9676d000)
 # libssl.so.1.1 => /lib/aarch64-linux-gnu/libssl.so.1.1 (0x0000ffff966d3000)
@@ -282,6 +282,8 @@ ldd /tmp/relay/relay-pkg.so
 # libzstd.so.1 => not found
 # liblz4.so.1 => /lib/aarch64-linux-gnu/liblz4.so.1 (0x0000ffff96203000)
 ```
+
+_If you're looking for OpenSSL 3.0 builds, you need to download the artifact with the `+libssl3` modifier instead.
 
 _If you're seeing a `not a dynamic executable` error, then the downloaded build doesn't match the os/arch, or you're obscure distro is blocking `ldd` calls in `/tmp`._
 
@@ -390,7 +392,9 @@ RELAY_INI_DIR=$(php-config --ini-dir)          # /etc/php/8.1/cli/conf.d/
 RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902
 RELAY_ARCH=$(arch | sed -e 's/arm64/aarch64/;s/amd64\|x86_64/x86-64/')
 
+# For OpenSSL 3.0 use: `+libssl3.tar.gz`
 RELAY_ARTIFACT="https://builds.r2.relay.so/$RELAY_VERSION/relay-$RELAY_VERSION-php$RELAY_PHP-debian-$RELAY_ARCH.tar.gz"
+
 RELAY_TMP_DIR=$(mktemp -dt relay-XXXXX)
 
 ## Download artifact
