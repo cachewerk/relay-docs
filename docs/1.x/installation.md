@@ -268,9 +268,9 @@ Make sure the `relay.so` has all its dependencies using `ldd` (or `otool` on mac
 ```bash
 ldd /tmp/relay/relay.so
 
-# libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000ffff9676d000)
+# libck.so.0 => /usr/local/lib/libck.so.0 (0x00007ff86b737000)
 # libssl.so.1.1 => /lib/aarch64-linux-gnu/libssl.so.1.1 (0x0000ffff966d3000)
-# libcrypto.so.1.1 => /lib/aarch64-linux-gnu/libcrypto.so.1.1 (0x0000ffff96445000)
+# libhiredis.so.1.1.0 => /usr/local/lib/libhiredis.so.1.1.0 (0x00007ff86b744000)
 # libzstd.so.1 => not found
 # liblz4.so.1 => /lib/aarch64-linux-gnu/liblz4.so.1 (0x0000ffff96203000)
 ```
