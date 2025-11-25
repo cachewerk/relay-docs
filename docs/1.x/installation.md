@@ -261,17 +261,9 @@ If we're missing a build for your particular system or architecture, please [ope
 
 ### 5. System dependencies
 
-Relay requires several system libraries (OpenSSL, hiredis, Concurrency Kit, Zstandard, LZ4).
-All Relay builds come with a `relay.so` and a `relay-pkg.so`, the latter comes with with `hiredis` and `ck` bundled in, because:
+Relay requires several system libraries (OpenSSL, Concurrency Kit, Zstandard, LZ4 and hiredis).
 
-1. Relay requires hiredis `>=1.1.0`
-2. Relay on Silicon requires ck `>=0.7.1`
-
-The OpenSSL dependency can be ignored, because it's typically installed along with PHP.
-
-While you _should_ use the `relay.so` today and have all libraries linked dynamically, you may use the `relay-pkg.so` for convenience.
-
-Alright, now make sure the `relay.so` has all its dependencies using `ldd` (or `otool` on macOS):
+Make sure the `relay.so` has all its dependencies using `ldd` (or `otool` on macOS):
 
 ```bash
 ldd /tmp/relay/relay.so
@@ -298,7 +290,7 @@ apt-get install libzstd
 Let's move the Relay binary. First, we'll inject the mandatory UUID into the binary:
 
 ```bash
-sed -i "s/00000000-0000-0000-0000-000000000000/$(cat /proc/sys/kernel/random/uuid)/" /tmp/relay/relay-pkg.so
+sed -i "s/00000000-0000-0000-0000-000000000000/$(cat /proc/sys/kernel/random/uuid)/" /tmp/relay/relay.so
 ```
 
 Second, identify PHP's extension directory for all:
@@ -311,10 +303,10 @@ php-config --extension-dir
 # /usr/lib/php/20210902
 ```
 
-Then move and rename the `relay-pkg.so` to `relay.so` and move it to the extension directory:
+Then move the `relay.so` to the extension directory:
 
 ```bash
-cp /tmp/relay/relay-pkg.so /usr/lib/php/20210902/relay.so
+cp /tmp/relay/relay.so /usr/lib/php/20210902/relay.so
 ```
 
 _Do this for all PHP installations of step 2._
@@ -401,10 +393,10 @@ RELAY_TMP_DIR=$(mktemp -dt relay-XXXXX)
 curl -sSL $RELAY_ARTIFACT | tar -xz --strip-components=1 -C $RELAY_TMP_DIR
 
 ## Inject UUID
-sed -i "s/00000000-0000-0000-0000-000000000000/$(cat /proc/sys/kernel/random/uuid)/" $RELAY_TMP_DIR/relay-pkg.so
+sed -i "s/00000000-0000-0000-0000-000000000000/$(cat /proc/sys/kernel/random/uuid)/" $RELAY_TMP_DIR/relay.so
 
-## Move + rename `relay-pkg.so`
-cp $RELAY_TMP_DIR/relay-pkg.so $RELAY_EXT_DIR/relay.so
+## Move `relay.so`
+cp $RELAY_TMP_DIR/relay.so $RELAY_EXT_DIR/relay.so
 
 # Modify `relay.ini`
 sed -i 's/^;\? \?relay.maxmemory =.*/relay.maxmemory = 128M/' $RELAY_TMP_DIR/relay.ini
