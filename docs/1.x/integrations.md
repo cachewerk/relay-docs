@@ -20,7 +20,7 @@ Relay is supported by the free [Redis Object Cache](https://wordpress.org/plugin
 
 ## Drupal
 
-Drupa's `drupal/redis` module supports Relay natively. [Learn more...](https://www.drupal.org/project/redis)
+Drupal's `drupal/redis` module supports Relay natively. [Learn more...](https://www.drupal.org/project/redis)
 
 ## Magento
 

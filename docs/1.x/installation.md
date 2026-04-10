@@ -118,7 +118,7 @@ Finally, restart PHP-FPM and the web server.
 
 Relay can be installed using [PHP PIE](https://github.com/php/pie):
 
-```basb
+```bash
 pie install cachewerk/relay
 
 # install for a specific PHP version:
@@ -237,7 +237,7 @@ which php
 
 ### 3. PHP extensions
 
-Next, make sure the PHP installation you picked in step 2 have the `json`, `igbinary` and `msgpack` extensions installed.
+Next, make sure the PHP installation you picked in step 2 has the `json`, `igbinary` and `msgpack` extensions installed.
 
 ```bash
 /usr/bin/php -m | grep -e json -e igbinary -e msgpack
@@ -250,11 +250,11 @@ If any of the extensions are missing, be sure to install them via `pecl` or the 
 
 ### 4. Relay artifact
 
-Next, [grab the URL](/builds) for the build matching the system. We'll use Ubuntu 20.04 and PHP 8.1 as an example.
+Next, [grab the URL](/docs/1.x/builds) for the build matching the system. We'll use Ubuntu 20.04 and PHP 8.1 as an example.
 
 ```bash
 mkdir /tmp/relay
-curl -sSL "https://builds.r2.relay.so/v0.12.0/relay-v0.12.0-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
+curl -sSL "https://builds.r2.relay.so/v0.21.0/relay-v0.21.0-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
 ```
 
 If we're missing a build for your particular system or architecture, please [open an issue](https://github.com/cachewerk/relay/issues).
@@ -277,9 +277,9 @@ ldd /tmp/relay/relay.so
 
 _If you're looking for OpenSSL 3.0 builds, you need to download the artifact with the `+libssl3` modifier instead.
 
-_If you're seeing a `not a dynamic executable` error, then the downloaded build doesn't match the os/arch, or you're obscure distro is blocking `ldd` calls in `/tmp`._
+_If you're seeing a `not a dynamic executable` error, then the downloaded build doesn't match the os/arch, or your obscure distro is blocking `ldd` calls in `/tmp`._
 
-If any dependency says `not found` the library missing needs to be installed:
+If any dependency says `not found` the missing library needs to be installed:
 
 ```bash
 apt-get install libzstd
@@ -293,7 +293,7 @@ Let's move the Relay binary. First, we'll inject the mandatory UUID into the bin
 sed -i "s/00000000-0000-0000-0000-000000000000/$(cat /proc/sys/kernel/random/uuid)/" /tmp/relay/relay.so
 ```
 
-Second, identify PHP's extension directory for all:
+Second, identify PHP's extension directory:
 
 ```bash
 /usr/bin/php -i | grep '^extension_dir'
@@ -378,7 +378,7 @@ First, ensure that the `json`, `igbinary` and `msgpack` PHP extensions are insta
 Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
 
 ```bash
-RELAY_VERSION="v0.12.0"                        # https://builds.r2.relay.so/meta/latest
+RELAY_VERSION="v0.21.0"                        # https://builds.r2.relay.so/meta/latest
 RELAY_PHP=$(php-config --version | cut -c -3)  # 8.1
 RELAY_INI_DIR=$(php-config --ini-dir)          # /etc/php/8.1/cli/conf.d/
 RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902

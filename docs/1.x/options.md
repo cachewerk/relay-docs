@@ -61,11 +61,11 @@ You may configure Relay to throw exceptions when read-errors occur, instead of r
 ```php
 $relay = new Relay;
 
-$redis->set('name', 'Picard');
+$relay->set('name', 'Picard');
 
 $relay->hgetall('name'); // false
 $relay->setOption(Relay::OPT_THROW_ON_ERROR, true);
-$redis->hgetall('name'); // throws `Relay\Exception`
+$relay->hgetall('name'); // throws `Relay\Exception`
 ```
 
 ## PhpRedis options

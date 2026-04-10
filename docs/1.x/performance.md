@@ -4,7 +4,7 @@ title: Performance
 
 # Performance
 
-For Relay to perform at it's peak, some configuration directives might need to be adjusted to match your system.
+For Relay to perform at its peak, some configuration directives might need to be adjusted to match your system.
 
 ## `relay.locks.*`
 
@@ -18,7 +18,7 @@ The default locking mechanism used for the in-memory cache and allocator is `ada
 
 This directive determines the maximum number of PHP workers with their own in-memory cache. While each PHP worker will have its own connection to Redis, not all workers need their own in-memory cache, and can be read-only workers that read from the shared memory pool. Giving too many workers an in-memory cache can negatively impact performance.
 
-The default of `32` should be adjusted the number of cores or maximum workers, whichever is lower.
+The default of `32` should be adjusted to the number of cores or maximum workers, whichever is lower.
 
 ```
 max_endpoint_dbs = min(cores, pm.max_children)

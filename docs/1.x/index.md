@@ -9,7 +9,7 @@
   - [Connections](/docs/1.x/connections)
   - [Eviction](/docs/1.x/eviction)
   - [Events](/docs/1.x/events)
-  - [Ratios](/docs/1.x/events)
+  - [Adaptive](/docs/1.x/adaptive)
   - [Options](/docs/1.x/options)
   - [Tables](/docs/1.x/tables)
 - ##### Digging Deeper

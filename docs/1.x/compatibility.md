@@ -4,7 +4,7 @@ title: Compatibility
 
 # Compatibility
 
-Relay is designed to be a drop-in replacement for [PhpRedis](https://github.com/phpredis/phpredis) and it's [API](/docs/1.x/api) is identical.
+Relay is designed to be a drop-in replacement for [PhpRedis](https://github.com/phpredis/phpredis) and its [API](/docs/1.x/api) is identical.
 
 PhpRedis and Relay (by default) will return `false` in the event that a key doesn't exist, but also if a read error occurred. This makes it hard to distinguish the two return values.
 

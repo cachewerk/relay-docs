@@ -8,7 +8,7 @@ Relay's builds are available in a searchable format at [relay.so/builds](https:/
 
 ## Latest version
 
-Fetching a the latest stable version is easy.
+Fetching the latest stable version is easy.
 
 ```bash
 curl "https://builds.r2.relay.so/meta/latest"
@@ -33,5 +33,5 @@ curl "https://builds.r2.relay.so/meta/builds"
 Each release has a `artifacts.json` that contains the various build artifacts.
 
 ```bash
-curl "https://builds.r2.relay.so/v0.12.0/artifacts.json"
+curl "https://builds.r2.relay.so/v0.21.0/artifacts.json"
 ```

@@ -12,7 +12,7 @@ All [builds](/docs/1.x/builds) include a `relay.stub.php` file, which outlines t
 
 ```bash
 wget "https://builds.r2.relay.so/dev/relay.stub.php"
-curl -O "https://builds.r2.relay.so/v0.12.0/relay.stub.php"
+curl -O "https://builds.r2.relay.so/v0.21.0/relay.stub.php"
 ```
 
 ## Attributes

@@ -40,7 +40,7 @@ $redis = new Relay('127.0.0.1', 6379);
 
 App::setUserCount($redis->get('users:count'));
 
-$relay->onInvalidated(function ($event) {
+$redis->onInvalidated(function ($event) {
     if ($event->key === 'users:count') {
         $users = App::setUserCount(null);
     }

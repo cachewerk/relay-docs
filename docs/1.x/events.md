@@ -8,7 +8,7 @@ title: Events
 
 ## Overview
 
-Relay’s in-memory cache is exceptionally fast and reliable, however some scenarios such as long-running processes or highly concurrent applications, event listeners can be used to avoid race conditions and stale caches.
+Relay’s in-memory cache is exceptionally fast and reliable, however in some scenarios such as long-running processes or highly concurrent applications, event listeners can be used to avoid race conditions and stale caches.
 
 On distributed infrastructures Relay will execute event callbacks `0.01ms` after the key changed in Redis. If a key is deleted or altered using Relay itself, it will perform [client-side invalidation](#client-side-invalidation) and __additionally__ execute event listeners instantaneously on all workers in the same PHP process pool.
 
@@ -19,8 +19,8 @@ Event listeners are executed, after Relay invalidated keys in its in-memory cach
 | Event                      | Description                                                        |
 | -------------------------- | ------------------------------------------------------------------ |
 | `Relay\Event`              | Abstract base class used by all events |
-| `Relay\Event\Flushed`      | Dispatched when the connection’s database was flushed, right after Relay wiped it’s in-memory cache |
-| `Relay\Event\Invalidated`  | Dispatched when a key that the current instance previously interacted with was deleted or altered in any way, right after Relay removed the key from it’s in-memory cache |
+| `Relay\Event\Flushed`      | Dispatched when the connection’s database was flushed, right after Relay wiped its in-memory cache |
+| `Relay\Event\Invalidated`  | Dispatched when a key that the current instance previously interacted with was deleted or altered in any way, right after Relay removed the key from its in-memory cache |
 
 Event listeners can be any PHP `callable` type and are registered using the `listen()`, `onFlushed()` and `onInvalidated()` methods.
 
@@ -85,13 +85,13 @@ $relay = new Relay(
 );
 ```
 
-The reason for this is due to Redis' design. Relay isn't aware of the database index when `FLUSHDB` is called and will flush it’s entire memory. If you're curious, read about [the technical details](https://redis.io/docs/manual/client-side-caching/).
+The reason for this is due to Redis' design. Relay isn't aware of the database index when `FLUSHDB` is called and will flush its entire memory. If you're curious, read about [the technical details](https://redis.io/docs/manual/client-side-caching/).
 
 ## Client-side invalidation
 
 By default, when Relay has a key in its in-memory cache, and the key is deleted or written using Relay, it's instantaneously invalidated for all PHP workers in the same process pool. This is called "client-side invalidation".
 
-This means all PHP workers in the same process pool, will receive __duplicate__ event callbacks. One instantaneous and second one shortly after, once when Relay receives the `INVALIDATE` message from Redis. Workers in other process pools will only receives a single event callback.
+This means all PHP workers in the same process pool, will receive __duplicate__ event callbacks. One instantaneous and a second one shortly after, once Relay receives the `INVALIDATE` message from Redis. Workers in other process pools will only receive a single event callback.
 
 If you want to disable this behavior and wait for network round trips, you can disable client-side invalidation callbacks:
 
@@ -101,7 +101,7 @@ $relay->setOption(Relay::OPT_CLIENT_INVALIDATIONS, false);
 
 ## Manual event dispatching
 
-Despite of PHP’s synchronous nature, Relay will dispatch event callbacks at regular checkpoints during any code execution. In rare scenarios where nanosecond consistency is needed, event callbacks can be triggered manually using the `dispatchEvents()` method, which is extremely fast and memory efficient.
+Despite PHP’s synchronous nature, Relay will dispatch event callbacks at regular checkpoints during any code execution. In rare scenarios where nanosecond consistency is needed, event callbacks can be triggered manually using the `dispatchEvents()` method, which is extremely fast and memory efficient.
 
 ```php
 $relay->dispatchEvents();

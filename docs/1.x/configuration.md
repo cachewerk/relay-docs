@@ -10,7 +10,7 @@ Relay provides many configuration directives and the `relay.ini` file can be loc
 php --ini
 ```
 
-It’s recommend to at least adjust the `relay.maxmemory` and `relay.eviction_policy` directives. For peak performance in production the `relay.locks.cache` and `relay.max_endpoint_dbs` directives must be adjusted, see [Performance](/docs/1.x/performance) section.
+It’s recommended to at least adjust the `relay.maxmemory` and `relay.eviction_policy` directives. For peak performance in production the `relay.locks.cache` and `relay.max_endpoint_dbs` directives must be adjusted, see [Performance](/docs/1.x/performance) section.
 
 If you're running a licensed binary, be sure to set the `relay.key` and `relay.environment` as well.
 
