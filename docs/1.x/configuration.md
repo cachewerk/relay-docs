@@ -35,11 +35,11 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.eviction_policy`           | `noeviction`     | How should relay evict keys. This has been designed to mirror Redis’ options. Supported values: `noeviction`, `lru`, and `random` |
 | `relay.eviction_sample_keys`      | `128`            | How many keys should we scan each time we process evictions. |
 | `relay.databases`                 | `16`             | The number of databases Relay will create per in-memory cache. This setting should match the `databases` setting in your `redis.conf`. |
-| `relay.max_endpoint_dbs`          | `32`             | The maximum number of PHP workers that will have their own in-memory cache. This setting is per connection endpoint (distinct Redis connections). See [Performance](/docs/1.x/performance) section. |
-| `relay.max_db_writers`            | `4`              | The maximum number of writers for a given cache. Writers are PHP workers with a persistent connection to Redis that can write to the cache and manage their own invalidations. Any number of workers can read from any cache. |
-| `relay.cap_endpoint_dbs`          | `On`             | Whether Relay should cap `max_endpoint_dbs` to the number of detected CPU cores. |
-| `relay.locks.allocator`           | `adaptive-mutex` | Locking mechanism used for the allocator. Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
-| `relay.locks.cache`               | `adaptive-mutex` | Locking mechanism used for the in-memory cache (databases). Supported values: `spinlock`, `mutex`, `adaptive-mutex` |
+| `relay.max_endpoint_dbs`          | `32`             | The maximum number of PHP workers that will have their own in-memory cache. This setting is per connection endpoint (distinct Redis connections), e.g. connecting to two separate instances will double the workers. See [Performance](/docs/1.x/performance). |
+| `relay.max_db_writers`            | `4`              | The maximum number of writers for a given cache. Writers are PHP workers with a persistent connection to Redis that can write to the cache and manage their own invalidations. Any number of workers can read from any cache. See [Performance](/docs/1.x/performance). |
+| `relay.cap_endpoint_dbs`          | `On`             | Whether Relay should cap `max_endpoint_dbs` to the number of detected CPU cores. See [Performance](/docs/1.x/performance). |
+| `relay.locks.allocator`           | `adaptive-mutex` | Locking mechanism used for the allocator. Supported values: `spinlock`, `mutex`, `adaptive-mutex`. See [Performance](/docs/1.x/performance). |
+| `relay.locks.cache`               | `adaptive-mutex` | Locking mechanism used for the in-memory cache (databases). Supported values: `spinlock`, `mutex`, `adaptive-mutex`. See [Performance](/docs/1.x/performance). |
 | `relay.default_pconnect`          | `1`              | Default to using a persistent connection when calling `connect()`. |
 | `relay.initial_readers`           | `128`            | The number of epoch readers allocated on startup. |
 | `relay.invalidation_poll_freq`    | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis/Valkey. |
