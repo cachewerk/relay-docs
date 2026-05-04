@@ -4,7 +4,7 @@ title: Options
 
 # Options
 
-Relay supports all of PhpRedis' `setOption()` options and comes with its own:
+Relay supports all of PhpRedis' `setOption()` constants and comes with its own:
 
 - `OPT_USE_CACHE`
 - `OPT_PHPREDIS_COMPATIBILITY`
@@ -16,7 +16,13 @@ Relay supports all of PhpRedis' `setOption()` options and comes with its own:
 - `OPT_ADAPTIVE_CACHE`
 - `OPT_CAPA_REDIRECT`
 - `OPT_RESTORE_PUBSUB`
-- `OPT_AVAILABILITY_ZONE` (cluster only)
+
+As well as some `Relay\Cluster` specific ones:
+
+- `OPT_DISTRIBUTE`
+- `OPT_FAILOVER`
+- `OPT_AVAILABILITY_ZONE`
+
 
 ## `OPT_USE_CACHE`
 
@@ -93,12 +99,48 @@ Whether the client is capable of handling [`CLIENT CAPA redirect`](https://valke
 
 Whether Relay should automatically restore active Pub/Sub subscriptions after reconnecting.
 
-## `OPT_AVAILABILITY_ZONE`
+## `OPT_DISTRIBUTE`
 
-Available on `Relay\Cluster`. Sets a preferred availability zone so cluster reads can be routed to nodes in the same zone, reducing cross-AZ traffic.
+Controls how readonly commands are distributed across cluster nodes. Defaults to `DISTRIBUTE_NONE`.
+
+Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DISTRIBUTE` and `OPT_FAILOVER`.
+
+| Value | Description |
+| --- | --- |
+| `DISTRIBUTE_NONE` | Send readonly commands to the primary node only. |
+| `DISTRIBUTE_RANDOM` | Distribute randomly between the primary and its replicas. Stops trying replicas after the first failed attempt. |
+| `DISTRIBUTE_RANDOM_REPLICA` | Distribute randomly among replicas only, never the primary. Stops trying replicas after the first failed attempt. |
+| `DISTRIBUTE_REPLICAS` | Distribute randomly among replicas only. Iterates through all replicas until it finds a working one. |
+| `DISTRIBUTE_ALL` | Distribute between the primary and its replicas. Iterates through all nodes until it finds a working one. |
 
 ```php
-$cluster->setOption(Relay::OPT_AVAILABILITY_ZONE, 'us-east-1a');
+$cluster->setOption(Cluster::OPT_DISTRIBUTE, Cluster::DISTRIBUTE_REPLICAS);
+```
+
+### `OPT_FAILOVER`
+
+Controls the retry strategy when a command fails on a node. Defaults to `FAILOVER_NONE`.
+
+Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DISTRIBUTE` and `OPT_FAILOVER`.
+
+| Value | Description |
+| --- | --- |
+| `FAILOVER_NONE` | Don't retry. |
+| `FAILOVER_RANDOM_REPLICA` | Retry the readonly command on a randomly selected replica. |
+| `FAILOVER_PRIMARY` | Retry the readonly command on the primary node. Only applicable when the failed node is a replica. |
+| `FAILOVER_REPLICAS` | Retry the readonly command on all replicas, excluding the failed node. |
+| `FAILOVER_ALL` | Retry the readonly command on all other nodes (replicas and primary), excluding the failed node. |
+
+```php
+$cluster->setOption(Cluster::OPT_FAILOVER, Cluster::FAILOVER_REPLICAS);
+```
+
+### `OPT_AVAILABILITY_ZONE`
+
+Sets a preferred availability zone so cluster reads can be routed to nodes in the same zone, reducing cross-AZ traffic.
+
+```php
+$cluster->setOption(Cluster::OPT_AVAILABILITY_ZONE, 'us-east-1a');
 ```
 
 ## PhpRedis options
