@@ -117,7 +117,7 @@ Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DIST
 $cluster->setOption(Cluster::OPT_DISTRIBUTE, Cluster::DISTRIBUTE_REPLICAS);
 ```
 
-### `OPT_FAILOVER`
+## `OPT_FAILOVER`
 
 Controls the retry strategy when a command fails on a node. Defaults to `FAILOVER_NONE`.
 
@@ -135,7 +135,7 @@ Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DIST
 $cluster->setOption(Cluster::OPT_FAILOVER, Cluster::FAILOVER_REPLICAS);
 ```
 
-### `OPT_AVAILABILITY_ZONE`
+## `OPT_AVAILABILITY_ZONE`
 
 Sets a preferred availability zone so cluster reads can be routed to nodes in the same zone, reducing cross-AZ traffic.
 
