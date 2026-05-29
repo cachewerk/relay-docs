@@ -6,6 +6,8 @@ title: Adaptive Caching
 
 Relay supports an adaptive caching mechanism to only cache keys that meet a read-write ratio to aid applications that suffer from cache thrashing, e.g. WordPress sites.
 
+The problem it solves is thrashing: when every key is cached, a flood of one-off reads can evict the small, hot set of keys your application actually relies on. By observing access patterns and only keeping keys whose reads sufficiently outweigh their writes, Relay keeps its cache warm even under realistic, skewed workloads — where a small slice of keys absorbs the bulk of the reads.
+
 The configuration for the adaptive cache is highly individual to an application and should ideally be benchmarked. At the very least match the `width` of the cache to the unique number of keys that exist in the cache.
 
 ```php
@@ -24,7 +26,7 @@ $relay = new Relay(
             // Minimum number of events (reads + writes) before Relay
             // will use the ratio to determine if a key should remain cached.
             // Using a negative number will invert this and Relay won't cache
-            // a key until its seen at least that many events for the key.
+            // a key until it's seen at least that many events for the key.
             'minEvents' => 10,
 
             // Minimum ratio of reads to writes of a key to remain

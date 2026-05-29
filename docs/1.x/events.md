@@ -12,7 +12,7 @@ Relay’s in-memory cache is exceptionally fast and reliable, however in some sc
 
 On distributed infrastructures Relay will execute event callbacks `0.01ms` after the key changed in Redis. If a key is deleted or altered using Relay itself, it will perform [client-side invalidation](#client-side-invalidation) and __additionally__ execute event listeners instantaneously on all workers in the same PHP process pool.
 
-Event listeners are executed, after Relay invalidated keys in its in-memory cache.
+Event listeners are executed after Relay has invalidated keys in its in-memory cache.
 
 ## Event types
 
@@ -43,7 +43,7 @@ It’s worth noting that event listeners are connection specific, which means:
 
 ## Listening for flushes
 
-Application might want to register a distinct callback for `FLUSHDB` and `FLUSHALL` events. This can be accomplished using the `onFlushed()` method:
+Applications might want to register a distinct callback for `FLUSHDB` and `FLUSHALL` events. This can be accomplished using the `onFlushed()` method:
 
 ```php
 $relay->onFlushed(fn () => flushCache());
@@ -51,7 +51,7 @@ $relay->onFlushed(fn () => flushCache());
 
 ## Listening for invalidations
 
-Application may want to register one or more distinct invalidation listeners. This also be accomplished using the `onInvalidated()` method:
+Applications may want to register one or more distinct invalidation listeners. This can also be accomplished using the `onInvalidated()` method:
 
 ```php
 $relay->onInvalidated($callback);

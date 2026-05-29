@@ -4,7 +4,7 @@ title: Introduction
 
 # Introduction
 
-Relay is a PHP extension, that is a drop-in replacement for [PhpRedis](https://github.com/phpredis/phpredis) as well as a shared in-memory cache like APCu.
+Relay is a PHP extension that is a drop-in replacement for [PhpRedis](https://github.com/phpredis/phpredis) as well as a shared in-memory cache like APCu.
 
 It allows PHP to interact with Redis just like PhpRedis does, however all retrieved keys are also held in PHP’s memory, which is shared across all FPM workers.
 
@@ -17,6 +17,8 @@ $redis->connect('127.0.0.1', 6379);
 // Only retrieve key from Redis, if it isn’t in Relay’s memory
 $users = $redis->get('users:count');
 ```
+
+Serving reads from local memory instead of over the network makes them dramatically faster — Relay's [benchmarks](https://github.com/cachewerk/relay#benchmarks) show cache reads up to __100× faster__ than going to Redis — while cutting bandwidth to a bare minimum. Because this partial replica lives in the PHP master process and uses a multi-threaded, lock-free design, every worker can read from it concurrently without blocking. A single node can serve millions of requests per second, sidestepping the single-threaded bottleneck that often pushes Redis deployments into extra replication or clustering.
 
 To prevent its cache from going stale, Relay uses *server-assisted client side caching* to actively invalidate its in-memory cache. Meaning, __Relay will instantaneously know when the dataset on Redis changes__ and invalidate its local cache.
 
@@ -42,7 +44,7 @@ App::setUserCount($redis->get('users:count'));
 
 $redis->onInvalidated(function ($event) {
     if ($event->key === 'users:count') {
-        $users = App::setUserCount(null);
+        App::setUserCount(null);
     }
 });
 ```

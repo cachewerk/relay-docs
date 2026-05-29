@@ -30,8 +30,8 @@ curl "https://builds.r2.relay.so/meta/builds"
 
 ## Release artifacts
 
-Each release has a `artifacts.json` that contains the various build artifacts.
+Each release has an `artifacts.json` that contains the various build artifacts.
 
 ```bash
-curl "https://builds.r2.relay.so/v0.21.0/artifacts.json"
+curl "https://builds.r2.relay.so/{{relay}}/artifacts.json"
 ```

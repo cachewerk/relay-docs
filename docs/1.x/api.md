@@ -4,7 +4,7 @@ title: API
 
 # API
 
-Relay's API is available in a searchable format at [docs.relay.so/api](https://docs.relay.so/api/develop/) and bundled with the extension [stubs of PhpStorm](https://github.com/JetBrains/phpstorm-stubs).
+Relay's API is available in a searchable format at [docs.relay.so/api](https://docs.relay.so/api/develop/) and bundled with [PhpStorm's extension stubs](https://github.com/JetBrains/phpstorm-stubs).
 
 ## Stubs
 
@@ -12,7 +12,7 @@ All [builds](/docs/1.x/builds) include a `relay.stub.php` file, which outlines t
 
 ```bash
 wget "https://builds.r2.relay.so/dev/relay.stub.php"
-curl -O "https://builds.r2.relay.so/v0.21.0/relay.stub.php"
+curl -O "https://builds.r2.relay.so/{{relay}}/relay.stub.php"
 ```
 
 ## Attributes

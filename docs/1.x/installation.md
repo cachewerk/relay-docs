@@ -44,7 +44,7 @@ _It is worth noting that macOS lacks a decent futex mechanism and Relay will be 
 
 ## Linux
 
-Relay can be installed on any Linux system. We have [packages](https://github.com/cachewerk/linux-repos) for popular PHP repositories, and for other common systems we have various [Docker examples](https://github.com/cachewerk/relay/tree/main/docker), as well as [manual installation instructions](#manual-installation) for highly customized system.
+Relay can be installed on any Linux system. We have [packages](https://github.com/cachewerk/linux-repos) for popular PHP repositories, and for other common systems we have various [Docker examples](https://github.com/cachewerk/relay/tree/main/docker), as well as [manual installation instructions](#manual-installation) for highly customized systems.
 
 ## Using Docker
 
@@ -201,7 +201,7 @@ jobs:
         with:
           php-version: 8.4
           extensions: relay
-          # extensions: relay-0.12.1
+          # extensions: relay-0.22.0
           # extensions: relay-nightly
 
       - name: Dump Relay configuration
@@ -254,7 +254,7 @@ Next, [grab the URL](/docs/1.x/builds) for the build matching the system. We'll 
 
 ```bash
 mkdir /tmp/relay
-curl -sSL "https://builds.r2.relay.so/v0.21.0/relay-v0.21.0-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
+curl -sSL "https://builds.r2.relay.so/{{relay}}/relay-{{relay}}-php8.1-debian-x86-64.tar.gz" | tar -xz --strip-components=1 -C /tmp/relay
 ```
 
 If we're missing a build for your particular system or architecture, please [open an issue](https://github.com/cachewerk/relay/issues).
@@ -275,7 +275,7 @@ ldd /tmp/relay/relay.so
 # liblz4.so.1 => /lib/aarch64-linux-gnu/liblz4.so.1 (0x0000ffff96203000)
 ```
 
-_If you're looking for OpenSSL 3.0 builds, you need to download the artifact with the `+libssl3` modifier instead.
+_If you're looking for OpenSSL 3.0 builds, you need to download the artifact with the `+libssl3` modifier instead._
 
 _If you're seeing a `not a dynamic executable` error, then the downloaded build doesn't match the os/arch, or your obscure distro is blocking `ldd` calls in `/tmp`._
 
@@ -378,7 +378,7 @@ First, ensure that the `json`, `igbinary` and `msgpack` PHP extensions are insta
 Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
 
 ```bash
-RELAY_VERSION="v0.21.0"                        # https://builds.r2.relay.so/meta/latest
+RELAY_VERSION="{{relay}}" # https://builds.r2.relay.so/meta/latest
 RELAY_PHP=$(php-config --version | cut -c -3)  # 8.1
 RELAY_INI_DIR=$(php-config --ini-dir)          # /etc/php/8.1/cli/conf.d/
 RELAY_EXT_DIR=$(php-config --extension-dir)    # /usr/lib/php/20210902
