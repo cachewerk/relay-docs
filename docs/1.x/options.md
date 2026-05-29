@@ -111,7 +111,7 @@ Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DIST
 | `DISTRIBUTE_RANDOM` | Distribute randomly between the primary and its replicas. Stops trying replicas after the first failed attempt. |
 | `DISTRIBUTE_RANDOM_REPLICA` | Distribute randomly among replicas only, never the primary. Stops trying replicas after the first failed attempt. |
 | `DISTRIBUTE_REPLICAS` | Distribute randomly among replicas only. Iterates through all replicas until it finds a working one. |
-| `DISTRIBUTE_ALL` | Distribute between the primary and its replicas. Iterates through all nodes until it finds a working one. |
+| `DISTRIBUTE_ALL` | Distribute between the primary and its replicas. Iterates through all replicas until it finds a working one. |
 
 ```php
 $cluster->setOption(Cluster::OPT_DISTRIBUTE, Cluster::DISTRIBUTE_REPLICAS);
@@ -134,6 +134,19 @@ Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DIST
 ```php
 $cluster->setOption(Cluster::OPT_FAILOVER, Cluster::FAILOVER_REPLICAS);
 ```
+
+## `OPT_SLAVE_FAILOVER`
+
+Legacy compatibility view for PhpRedis' `OPT_SLAVE_FAILOVER`. It maps the legacy modes below onto Relay's `OPT_DISTRIBUTE` and `OPT_FAILOVER` settings.
+
+| Value | Description |
+| --- | --- |
+| `FAILOVER_NONE` | Send commands to master nodes only. |
+| `FAILOVER_ERROR` | Send readonly commands to slave nodes if master is unreachable. |
+| `FAILOVER_DISTRIBUTE` | Always distribute readonly commands between master and slaves, at random. |
+| `FAILOVER_DISTRIBUTE_SLAVES` | Always distribute readonly commands to the slaves, at random. |
+
+This is not a true alias: some `OPT_DISTRIBUTE` and `OPT_FAILOVER` combinations have no legacy representation, and `getOption(OPT_SLAVE_FAILOVER)` returns `false` for those states. Prefer `OPT_DISTRIBUTE` and `OPT_FAILOVER` for new code.
 
 ## `OPT_AVAILABILITY_ZONE`
 
