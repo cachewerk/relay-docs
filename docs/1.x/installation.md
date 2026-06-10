@@ -19,11 +19,8 @@ Before installing Relay, make sure the system meets the requirements:
 Relay can be installed on macOS using [Homebrew](https://brew.sh).
 
 ```bash
-brew tap cachewerk/tap
-brew trust cachewerk/tap
-
-brew install relay      # PHP 8.4
-brew install relay@7.4  # PHP 7.4
+brew install cachewerk/tap/relay      # PHP 8.5
+brew install cachewerk/tap/relay@7.4  # PHP 7.4
 ```
 
 Afterwards, be sure to restart PHP-FPM and the web server:
