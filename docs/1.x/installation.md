@@ -20,6 +20,7 @@ Relay can be installed on macOS using [Homebrew](https://brew.sh).
 
 ```bash
 brew tap cachewerk/tap
+brew trust cachewerk/tap
 
 brew install relay      # PHP 8.4
 brew install relay@7.4  # PHP 7.4
