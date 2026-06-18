@@ -12,7 +12,7 @@ Before installing Relay, make sure the system meets the requirements:
 
 - PHP 7.4+
 - Redis Server 6.2.7+
-- The `json`, `session`, `igbinary` and `msgpack` PHP extensions
+- The `json` and `session` PHP extensions
 
 ## macOS
 
@@ -235,7 +235,7 @@ which php
 
 ### 3. PHP extensions
 
-Next, make sure the PHP installation you picked in step 2 has the `json`, `igbinary` and `msgpack` extensions installed.
+Next, make sure the PHP installation you picked in step 2 has the `json` and `session` extensions installed. The `igbinary` and `msgpack` extensions are optional, however the `igbinary` serializer is recommended.
 
 ```bash
 /usr/bin/php -m | grep -e json -e igbinary -e msgpack
@@ -244,7 +244,7 @@ Next, make sure the PHP installation you picked in step 2 has the `json`, `igbin
 # msgpack
 ```
 
-If any of the extensions are missing, be sure to install them via `pecl` or the system's PHP package manager before continuing. _Do this for all PHP installations of step 2._
+If any of the required extensions are missing, be sure to install them via `pecl` or the system's PHP package manager before continuing. _Do this for all PHP installations of step 2._
 
 ### 4. Relay artifact
 
@@ -372,8 +372,7 @@ That's it, enjoy!
 
 ### TLDR
 
-First, ensure that the `json`, `igbinary` and `msgpack` PHP extensions are installed for all PHP installations (CLI, FPM, etc).
-Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
+First, ensure that the `json` and `session` PHP extensions are installed for all PHP installations (CLI, FPM, etc); the `igbinary` and `msgpack` extensions are optional. Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
 
 ```bash
 RELAY_VERSION="{{relay}}" # https://builds.r2.relay.so/meta/latest
