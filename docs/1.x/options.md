@@ -141,10 +141,10 @@ Legacy compatibility view for PhpRedis' `OPT_SLAVE_FAILOVER`. It maps the legacy
 
 | Value | Description |
 | --- | --- |
-| `FAILOVER_NONE` | Send commands to master nodes only. |
-| `FAILOVER_ERROR` | Send readonly commands to slave nodes if master is unreachable. |
-| `FAILOVER_DISTRIBUTE` | Always distribute readonly commands between master and slaves, at random. |
-| `FAILOVER_DISTRIBUTE_SLAVES` | Always distribute readonly commands to the slaves, at random. |
+| `FAILOVER_NONE` | Send commands to primary nodes only. |
+| `FAILOVER_ERROR` | Send readonly commands to replica nodes if primary is unreachable. |
+| `FAILOVER_DISTRIBUTE` | Always distribute readonly commands between primary and replicas, at random. |
+| `FAILOVER_DISTRIBUTE_SLAVES` | Always distribute readonly commands to the replicas, at random. |
 
 This is not a true alias: some `OPT_DISTRIBUTE` and `OPT_FAILOVER` combinations have no legacy representation, and `getOption(OPT_SLAVE_FAILOVER)` returns `false` for those states. Prefer `OPT_DISTRIBUTE` and `OPT_FAILOVER` for new code.
 
