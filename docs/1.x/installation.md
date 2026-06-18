@@ -205,17 +205,9 @@ functions:
       - ${bref-extra:relay-php-83}
 ```
 
-_Relay is only available for the `x86_64` architecture; `arm64` Lambda functions are not supported._
-
 ## Ymir
 
-[Ymir](https://ymirapp.com) deploys PHP applications to AWS Lambda. Relay is **bundled into the Ymir PHP runtime by default** on PHP 7.4 and newer — there's nothing to install or enable.
-
-Relay is loaded automatically and preconfigured with the `lru` [eviction policy](/docs/1.x/eviction). You can confirm it's available from a deployed function with:
-
-```bash
-php --ri relay
-```
+[Ymir](https://ymirapp.com) deploys PHP applications to AWS Lambda. Relay is **bundled into the Ymir PHP runtime by default** on PHP 7.4 and newer — there's nothing to install or enable. Relay is preconfigured with the `lru` [eviction policy](/docs/1.x/eviction) on Ymir.
 
 ## GitHub Actions
 
