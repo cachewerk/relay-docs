@@ -189,10 +189,9 @@ heroku config:set RELAY_KEY=...
 composer require bref/extra-php-extensions
 ```
 
-Register the plugin and add the Relay layer to your function, matching the layer's PHP version to your runtime:
+Register the plugin and add the Relay layer to your function inside `serverless.yml`, matching the layer's PHP version to your runtime:
 
 ```yaml
-# serverless.yml
 plugins:
   - ./vendor/bref/bref
   - ./vendor/bref/extra-php-extensions
