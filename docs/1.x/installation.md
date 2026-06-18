@@ -181,6 +181,42 @@ Be sure to set your `RELAY_KEY` config variable:
 heroku config:set RELAY_KEY=...
 ```
 
+## Bref
+
+[Bref](https://bref.sh) runs PHP on AWS Lambda. Relay is available as a Lambda layer through the [`bref/extra-php-extensions`](https://github.com/brefphp/extra-php-extensions) package:
+
+```bash
+composer require bref/extra-php-extensions
+```
+
+Register the plugin and add the Relay layer to your function, matching the layer's PHP version to your runtime:
+
+```yaml
+# serverless.yml
+plugins:
+  - ./vendor/bref/bref
+  - ./vendor/bref/extra-php-extensions
+
+functions:
+  api:
+    handler: public/index.php
+    runtime: php-83-fpm
+    layers:
+      - ${bref-extra:relay-php-83}
+```
+
+_Relay is only available for the `x86_64` architecture; `arm64` Lambda functions are not supported._
+
+## Ymir
+
+[Ymir](https://ymirapp.com) deploys PHP applications to AWS Lambda. Relay is **bundled into the Ymir PHP runtime by default** on PHP 7.4 and newer — there's nothing to install or enable.
+
+Relay is loaded automatically and preconfigured with the `lru` [eviction policy](/docs/1.x/eviction). You can confirm it's available from a deployed function with:
+
+```bash
+php --ri relay
+```
+
 ## GitHub Actions
 
 Installing Relay on GitHub Actions using `shivammathur/setup-php` is seamless.
