@@ -34,6 +34,4 @@ The default locking mechanism used for the in-memory cache and allocator is `ada
 
 ## `relay.cap_endpoint_dbs`
 
-When enabled (the default), Relay will cap `max_endpoint_dbs` to the number of detected CPU cores. This is a sensible safeguard that prevents over-allocation on systems where `pm.max_children` exceeds the core count.
-
-With the default `max_endpoint_dbs` of `1` this has no effect, and it only comes into play if you raise `max_endpoint_dbs` above the core count.
+When enabled (the default), Relay will cap `max_endpoint_dbs` to the number of detected CPU cores. With the default `max_endpoint_dbs` of `1` this has no effect, and it only comes into play if you raise `max_endpoint_dbs` above the core count.
