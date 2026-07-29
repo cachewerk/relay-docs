@@ -10,13 +10,13 @@ Relay keeps its in-memory replica in the PHP master process and is built around 
 
 ## `relay.max_endpoint_dbs`
 
-This directive determines the maximum number of PHP workers that will have their own in-memory cache. Not all workers need their own cache — workers without one become read-only workers that read from the shared memory pool. Giving too many workers an in-memory cache can negatively impact performance.
+This directive determines the maximum number of in-memory caches Relay allocates per connection endpoint. PHP workers are distributed across these caches, and when there are more workers than caches, multiple workers share one. Allocating too many caches can negatively impact performance.
 
 The default is `1`, meaning all workers share a single in-memory cache per endpoint. This is the right setting for the vast majority of deployments and generally does not need to be changed.
 
 Earlier versions defaulted to `32` and recommended tuning this to roughly `min(vCPUs, pm.max_children)`, because a cache could only be written to by a single worker. That is no longer the case: multiple workers can now write to the same cache concurrently, so additional caches mostly duplicate the same data and consume more of `relay.maxmemory` without improving throughput. Use [`relay.max_db_writers`](#relaymax_db_writers) to control write concurrency instead.
 
-This setting is per connection endpoint (distinct Redis connections), meaning connecting to two separate Redis instances will double the number of workers that have their own cache. See also [`relay.cap_endpoint_dbs`](#relaycap_endpoint_dbs).
+This setting is per connection endpoint (distinct Redis connections), meaning connecting to two separate Redis instances will double the number of caches. See also [`relay.cap_endpoint_dbs`](#relaycap_endpoint_dbs).
 
 ## `relay.max_db_writers`
 
