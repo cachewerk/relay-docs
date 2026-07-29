@@ -352,7 +352,7 @@ In testing environments you can skip this step, but for production setups we rec
 
 ```ini
 relay.maxmemory = 128M
-relay.eviction_policy = noeviction
+relay.eviction_policy = lru
 relay.environment = production
 relay.key = 1L0O-KF0R-W4RDT0-Y0URR3P-0RTMRBR-OCC0L1
 ```
