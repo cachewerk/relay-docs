@@ -21,6 +21,7 @@ As well as some `Relay\Cluster` specific ones:
 
 - `OPT_DISTRIBUTE`
 - `OPT_FAILOVER`
+- `OPT_REPLICA_FAILOVER`
 - `OPT_AVAILABILITY_ZONE`
 
 
@@ -103,7 +104,7 @@ Whether Relay should automatically restore active Pub/Sub subscriptions after re
 
 Controls how readonly commands are distributed across cluster nodes. Defaults to `DISTRIBUTE_NONE`.
 
-Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DISTRIBUTE` and `OPT_FAILOVER`.
+`OPT_DISTRIBUTE` and `OPT_FAILOVER` are the preferred way to configure cluster routing, rather than the legacy [`OPT_REPLICA_FAILOVER`](#optreplica_failover) compatibility option.
 
 | Value | Description |
 | --- | --- |
@@ -121,7 +122,7 @@ $cluster->setOption(Cluster::OPT_DISTRIBUTE, Cluster::DISTRIBUTE_REPLICAS);
 
 Controls the retry strategy when a command fails on a node. Defaults to `FAILOVER_NONE`.
 
-Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DISTRIBUTE` and `OPT_FAILOVER`.
+`OPT_DISTRIBUTE` and `OPT_FAILOVER` are the preferred way to configure cluster routing, rather than the legacy [`OPT_REPLICA_FAILOVER`](#optreplica_failover) compatibility option.
 
 | Value | Description |
 | --- | --- |
@@ -135,18 +136,24 @@ Instead of using PhpRedis' legacy `OPT_SLAVE_FAILOVER`, consider using `OPT_DIST
 $cluster->setOption(Cluster::OPT_FAILOVER, Cluster::FAILOVER_REPLICAS);
 ```
 
-## `OPT_SLAVE_FAILOVER`
+## `OPT_REPLICA_FAILOVER`
 
-Legacy compatibility view for PhpRedis' `OPT_SLAVE_FAILOVER`. It maps the legacy modes below onto Relay's `OPT_DISTRIBUTE` and `OPT_FAILOVER` settings.
+Legacy compatibility view for PhpRedis' coarse failover setting. It maps the modes below onto Relay's `OPT_DISTRIBUTE` and `OPT_FAILOVER` settings.
 
 | Value | Description |
 | --- | --- |
 | `FAILOVER_NONE` | Send commands to primary nodes only. |
 | `FAILOVER_ERROR` | Send readonly commands to replica nodes if primary is unreachable. |
 | `FAILOVER_DISTRIBUTE` | Always distribute readonly commands between primary and replicas, at random. |
-| `FAILOVER_DISTRIBUTE_SLAVES` | Always distribute readonly commands to the replicas, at random. |
+| `FAILOVER_DISTRIBUTE_REPLICAS` | Always distribute readonly commands to the replicas, at random. |
 
-This is not a true alias: some `OPT_DISTRIBUTE` and `OPT_FAILOVER` combinations have no legacy representation, and `getOption(OPT_SLAVE_FAILOVER)` returns `false` for those states. Prefer `OPT_DISTRIBUTE` and `OPT_FAILOVER` for new code.
+```php
+$cluster->setOption(Cluster::OPT_REPLICA_FAILOVER, Cluster::FAILOVER_DISTRIBUTE_REPLICAS);
+```
+
+This is not a true alias: some `OPT_DISTRIBUTE` and `OPT_FAILOVER` combinations have no legacy representation, and `getOption(OPT_REPLICA_FAILOVER)` returns `false` for those states. Prefer `OPT_DISTRIBUTE` and `OPT_FAILOVER` for new code.
+
+For PhpRedis compatibility, `OPT_SLAVE_FAILOVER` and `FAILOVER_DISTRIBUTE_SLAVES` remain available as aliases of `OPT_REPLICA_FAILOVER` and `FAILOVER_DISTRIBUTE_REPLICAS`.
 
 ## `OPT_AVAILABILITY_ZONE`
 
