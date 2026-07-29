@@ -10,7 +10,7 @@ Relay provides many configuration directives and the `relay.ini` file can be loc
 php --ini
 ```
 
-It’s recommended to at least adjust the `relay.maxmemory` and `relay.eviction_policy` directives. For peak performance in production the `relay.locks.cache` and `relay.max_endpoint_dbs` directives must be adjusted, see [Performance](/docs/1.x/performance) section.
+It’s recommended to at least adjust the `relay.maxmemory` and `relay.eviction_policy` directives. For peak performance in production the `relay.locks.cache` and `relay.max_db_writers` directives should be reviewed, see [Performance](/docs/1.x/performance) section.
 
 If you're running a licensed binary, be sure to set the `relay.key` and `relay.environment` as well.
 
@@ -35,7 +35,7 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.eviction_policy`           | `noeviction`     | How should Relay evict keys. This has been designed to mirror Redis’ options. Supported values: `noeviction`, `lru`, and `random` |
 | `relay.eviction_sample_keys`      | `128`            | How many keys should we scan each time we process evictions. |
 | `relay.databases`                 | `16`             | The number of databases Relay will create per in-memory cache. This setting should match the `databases` setting in your `redis.conf`. |
-| `relay.max_endpoint_dbs`          | `32`             | The maximum number of PHP workers that will have their own in-memory cache. This setting is per connection endpoint (distinct Redis connections), e.g. connecting to two separate instances will double the workers. See [Performance](/docs/1.x/performance). |
+| `relay.max_endpoint_dbs`          | `1`              | The maximum number of PHP workers that will have their own in-memory cache. This setting is per connection endpoint (distinct Redis connections), e.g. connecting to two separate instances will double the workers. See [Performance](/docs/1.x/performance). |
 | `relay.max_db_writers`            | `4`              | The maximum number of writers for a given cache. Writers are PHP workers with a persistent connection to Redis that can write to the cache and manage their own invalidations. Any number of workers can read from any cache. See [Performance](/docs/1.x/performance). |
 | `relay.cap_endpoint_dbs`          | `On`             | Whether Relay should cap `max_endpoint_dbs` to the number of detected CPU cores. See [Performance](/docs/1.x/performance). |
 | `relay.locks.allocator`           | `adaptive-mutex` | Locking mechanism used for the allocator. Supported values: `spinlock`, `mutex`, `adaptive-mutex`. See [Performance](/docs/1.x/performance). |

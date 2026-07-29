@@ -12,11 +12,9 @@ Relay keeps its in-memory replica in the PHP master process and is built around 
 
 This directive determines the maximum number of PHP workers that will have their own in-memory cache. Not all workers need their own cache — workers without one become read-only workers that read from the shared memory pool. Giving too many workers an in-memory cache can negatively impact performance.
 
-The default of `32` should be tuned to the number of CPU cores or maximum workers, whichever is lower:
+The default is `1`, meaning all workers share a single in-memory cache per endpoint. This is the right setting for the vast majority of deployments and generally does not need to be changed.
 
-```
-max_endpoint_dbs = min(vCPUs, pm.max_children)
-```
+Earlier versions defaulted to `32` and recommended tuning this to roughly `min(vCPUs, pm.max_children)`, because a cache could only be written to by a single worker. That is no longer the case: multiple workers can now write to the same cache concurrently, so additional caches mostly duplicate the same data and consume more of `relay.maxmemory` without improving throughput. Use [`relay.max_db_writers`](#relaymax_db_writers) to control write concurrency instead.
 
 This setting is per connection endpoint (distinct Redis connections), meaning connecting to two separate Redis instances will double the number of workers that have their own cache. See also [`relay.cap_endpoint_dbs`](#relaycap_endpoint_dbs).
 
@@ -38,4 +36,4 @@ The default locking mechanism used for the in-memory cache and allocator is `ada
 
 When enabled (the default), Relay will cap `max_endpoint_dbs` to the number of detected CPU cores. This is a sensible safeguard that prevents over-allocation on systems where `pm.max_children` exceeds the core count.
 
-When using `spinlock` on a machine with few cores, a lower `max_endpoint_dbs` value like `4` will likely perform well.
+With the default `max_endpoint_dbs` of `1` this has no effect, and it only comes into play if you raise `max_endpoint_dbs` above the core count.
