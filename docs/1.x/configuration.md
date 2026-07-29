@@ -45,15 +45,21 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.invalidation_poll_freq`    | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis/Valkey. |
 | `relay.loglevel`                  | `off`            | Whether Relay should log debug information. Supported levels: `debug`, `verbose`, `notice`, `error`, `off` |
 | `relay.logfile`                   |                  | The log destination. Supports `stderr` or an absolute path. |
-| `relay.cluster.seeds`             |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=tcp://127.0.0.1:7000&cluster2[]=tcp://127.0.0.1:8000` |
-| `relay.cluster.auth`              |                  | The list of credentials for each cluster, encoded as URL query string. Password string or username/password pairs may be used, e.g. `cluster1=secret&cluster2[]=username&cluster2[]=secret` |
-| `relay.cluster.timeout`           |                  | The maximum number of seconds Relay will wait while establishing connection to a single cluster node. |
-| `relay.cluster.read_timeout`      |                  | The maximum number of seconds Relay will wait while reading from a cluster node. |
-| `relay.cluster.slot_cache_expiry` |                  | The TTL of the cluster slot cache. |
-| `relay.cluster.shard_health_wait_time` | `0`         | The time to wait for shard health checks. |
-| `relay.session.locking_enabled`   | `0`              | Whether to enable session locking to avoid race conditions and keep session data consistent across requests. |
-| `relay.session.lock_expire`       | `0`              | The number of seconds Relay will try to acquire lock. When value is zero or negative `max_execution_time` will be used. |
-| `relay.session.lock_retries`      | `0`              | The number of attempts Relay will try to acquire lock. If value is zero or negative `100` will be used to be compatible with PhpRedis. |
-| `relay.session.lock_wait_time`    | `0`              | The number of microseconds Relay will wait between each attempt to acquire lock. If value is zero or negative `20000` will be used to be compatible with PhpRedis. |
-| `relay.session.compression`       | `none`           | Compression algorithm used for session data. Supported values: `lzf`, `lz4`, `zstd` and `none` |
-| `relay.session.compression_level` | `0`              | The used compression level. A value of `0` means the algorithm default compression level will be used. |
+| `relay.prefault`                  | `off`            | Whether Relay should fault in the shared memory segment during startup, instead of lazily on first use. Supported values: `off`, `populate` (uses `MAP_POPULATE`, Linux only), `touch` (writes to every page). |
+
+## Cluster directives
+
+| Directive                              | Default          | Description                                                         |
+| -------------------------------------- | ---------------- | ------------------------------------------------------------------- |
+| `relay.cluster.seeds`                  |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=tcp://127.0.0.1:7000&cluster2[]=tcp://127.0.0.1:8000` |
+| `relay.cluster.auth`                   |                  | The list of credentials for each cluster, encoded as URL query string. Password string or username/password pairs may be used, e.g. `cluster1=secret&cluster2[]=username&cluster2[]=secret` |
+| `relay.cluster.timeout`                |                  | The maximum number of seconds Relay will wait while establishing connection to a single cluster node. |
+| `relay.cluster.read_timeout`           |                  | The maximum number of seconds Relay will wait while reading from a cluster node. |
+| `relay.cluster.slot_cache_expiry`      |                  | The TTL of the cluster slot cache. |
+| `relay.cluster.shard_health_wait_time` | `0`              | The time to wait for shard health checks. |
+| `relay.session.locking_enabled`        | `0`              | Whether to enable session locking to avoid race conditions and keep session data consistent across requests. |
+| `relay.session.lock_expire`            | `0`              | The number of seconds Relay will try to acquire lock. When value is zero or negative `max_execution_time` will be used. |
+| `relay.session.lock_retries`           | `0`              | The number of attempts Relay will try to acquire lock. If value is zero or negative `100` will be used to be compatible with PhpRedis. |
+| `relay.session.lock_wait_time`         | `0`              | The number of microseconds Relay will wait between each attempt to acquire lock. If value is zero or negative `20000` will be used to be compatible with PhpRedis. |
+| `relay.session.compression`            | `none`           | Compression algorithm used for session data. Supported values: `lzf`, `lz4`, `zstd` and `none` |
+| `relay.session.compression_level`      | `0`              | The used compression level. A value of `0` means the algorithm default compression level will be used. |
