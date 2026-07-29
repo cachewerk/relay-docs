@@ -133,3 +133,14 @@ Alternatively clusters can be configured using the [`relay.cluster.*`](/docs/1.x
 ```php
 $cluster1 = new Relay\Cluster('pleiades');
 ```
+
+### Cluster databases
+
+Cluster mode traditionally supports only a single database. Valkey 9.0 lifted that restriction, and `Relay\Cluster` supports it when the server does.
+
+```php
+$cluster->select(1);
+$cluster->getDbNum(); // 1
+```
+
+`select()` is broadcast to every node in the cluster, so the whole connection moves to the new database at once. If it fails on any node, Relay reverts every node back to the previously selected database, leaving the connection in a consistent state rather than partially switched.
