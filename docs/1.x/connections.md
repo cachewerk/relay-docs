@@ -82,7 +82,7 @@ $relay = new Relay(
 The `endpointId()` will tell you whether a connection uses the in-memory cache:
 
 ```php
-$relay->endpointId(); // "tcp://default@127.0.0.1:6379?cache=1"
+$relay->endpointId(); // "tcp://default@localhost:6379?cache=0"
 ```
 
 ## Secure connections
