@@ -14,6 +14,15 @@ Before installing Relay, make sure the system meets the requirements:
 - Redis Server 6.2.7+
 - The `json` and `session` PHP extensions
 
+### Dependencies
+
+Relay detects the following at startup and only needs them when the corresponding serializer or compression is used:
+
+- The `igbinary` PHP extension (recommended)
+- The `msgpack` PHP extension
+- The Zstandard compression library (recommended)
+- The LZ4 compression library
+
 ## macOS
 
 Relay can be installed on macOS using [Homebrew](https://brew.sh).
@@ -286,18 +295,16 @@ If we're missing a build for your particular system or architecture, please [ope
 
 ### 5. System dependencies
 
-Relay requires several system libraries (OpenSSL, Concurrency Kit, Zstandard, LZ4 and hiredis).
+Relay requires several system libraries (OpenSSL, Concurrency Kit and hiredis).
 
 Make sure the `relay.so` has all its dependencies using `ldd` (or `otool` on macOS):
 
 ```bash
 ldd /tmp/relay/relay.so
 
-# libck.so.0 => /usr/local/lib/libck.so.0 (0x00007ff86b737000)
+# libck.so.0 => not found
 # libssl.so.1.1 => /lib/aarch64-linux-gnu/libssl.so.1.1 (0x0000ffff966d3000)
 # libhiredis.so.1.1.0 => /usr/local/lib/libhiredis.so.1.1.0 (0x00007ff86b744000)
-# libzstd.so.1 => not found
-# liblz4.so.1 => /lib/aarch64-linux-gnu/liblz4.so.1 (0x0000ffff96203000)
 ```
 
 _If you're looking for OpenSSL 3.0 builds, you need to download the artifact with the `+libssl3` modifier instead._
@@ -307,8 +314,10 @@ _If you're seeing a `not a dynamic executable` error, then the downloaded build 
 If any dependency says `not found` the missing library needs to be installed:
 
 ```bash
-apt-get install libzstd
+apt-get install libck-dev
 ```
+
+_Zstandard and LZ4 aren't linked into `relay.so` and won't show up in `ldd`. Relay looks for `libzstd` and `liblz4` at startup, and only needs them when using the `zstd` or `lz4` compression._
 
 ### 6. Relay extension
 
@@ -399,7 +408,9 @@ That's it, enjoy!
 
 ### TLDR
 
-First, ensure that the `json` and `session` PHP extensions are installed for all PHP installations (CLI, FPM, etc); the `igbinary` and `msgpack` extensions are optional. Then make sure `zstd` and `lz4` are installed, as well as other required system libraries.
+First, ensure that the `json` and `session` PHP extensions are installed for all PHP installations (CLI, FPM, etc); the `igbinary` and `msgpack` extensions are optional.
+
+Then make sure the required system libraries (OpenSSL, Concurrency Kit and hiredis) are installed; the `zstd` and `lz4` libraries are optional.
 
 ```bash
 RELAY_VERSION="{{relay}}" # https://builds.r2.relay.so/meta/latest

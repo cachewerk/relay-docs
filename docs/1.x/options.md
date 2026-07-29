@@ -181,3 +181,9 @@ Relay supports all of PhpRedis' options:
 - `OPT_SCAN`
 - `OPT_SERIALIZER`
 - `OPT_TCP_KEEPALIVE`
+
+### Serializer/Compression availability
+
+The `igbinary` and `msgpack` serializers require the matching PHP extension, and the `lz4` and `zstd` compressions require `liblz4`/`libzstd` to be installed. Relay detects all four at startup, and setting `OPT_SERIALIZER` or `OPT_COMPRESSION` to an unavailable algorithm throws an exception.
+
+Run `php --ri relay` to see what's available on the system, see the `Available serializers` and `Available compression` rows.
