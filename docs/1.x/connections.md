@@ -65,6 +65,8 @@ $relay->setOption(Relay::OPT_BACKOFF_ALGORITHM, Relay::BACKOFF_ALGORITHM_DECORRE
 $relay->connect(host: '127.0.0.1', timeout: 1.0, read_timeout: 1.0);
 ```
 
+Cluster connections also support a [per-node read timeout](#cluster-read-timeouts) and [health-check backoff](#cluster-health-checks). Their timeout and delay values use seconds; the `OPT_BACKOFF_BASE` and `OPT_BACKOFF_CAP` values above use milliseconds.
+
 ## Client-only connections
 
 In some cases it may be useful to disable Relay’s in-memory cache and have it just act like a faster PhpRedis, even when Relay did [create a shared memory](/docs/1.x/configuration#disabling-the-cache).
@@ -133,6 +135,61 @@ Alternatively clusters can be configured using the [`relay.cluster.*`](/docs/1.x
 ```php
 $cluster1 = new Relay\Cluster('pleiades');
 ```
+
+### Cluster read timeouts
+
+Using `OPT_NODE_READ_TIMEOUT` can shorten the wait for a slow node during distributed or failover reads. Pair it with the [distribution and failover options](/docs/1.x/options#optdistribute) to allow another node to serve the read:
+
+```php
+use Relay\Cluster;
+
+$cluster = new Cluster(
+    name: null,
+    seeds: ['127.0.0.1:7000'],
+    connect_timeout: 1.0,
+    command_timeout: 2.0,
+);
+
+$cluster->setOption(Cluster::OPT_FAILOVER, Cluster::FAILOVER_REPLICAS);
+$cluster->setOption(Cluster::OPT_NODE_READ_TIMEOUT, 0.1);
+```
+
+With replicas available, this configuration allows a read that times out on the primary after 100 milliseconds to be retried on a replica. The per-node budget is clipped to the remaining command timeout. Several node attempts can contribute to the total time spent on a read. The connection timeout still governs establishing connections; the per-node option does not replace it.
+
+The default per-node timeout is `0.0`, disabling the override. It applies to individual readonly commands when distribution or failover is enabled, outside pipelines and transactions. Writes retain their normal timeout behavior. You can change the option on an existing cluster object before issuing further reads.
+
+### Cluster health checks
+
+Relay uses configurable backoff when checking unhealthy nodes. A node that exceeds its per-node read timeout is marked unhealthy. When selecting replicas for distribution or failover, Relay skips unhealthy nodes until they are eligible for another health check.
+
+Checks happen as part of node selection after the delay has elapsed. A failed check schedules another attempt using the configured backoff; a successful check restores the node and resets its failure history. The per-node timeout also bounds health-check work, including reconnecting during a check, so probing an unhealthy replica can be cut short before trying another candidate.
+
+The default configuration uses exponential backoff with equal jitter:
+
+```ini
+relay.cluster.shard_health_wait_base = 1
+relay.cluster.shard_health_wait_cap = 60
+relay.cluster.shard_health_wait_strategy = equal-jitter
+relay.cluster.shard_health_wait_time = 0
+```
+
+The base and cap are in **seconds**. With these defaults, the delay is chosen randomly between half the current exponential ceiling and that ceiling: initially 0.5–1 seconds, then 1–2 seconds, then 2–4 seconds, up to 30–60 seconds. This spreads out repeated checks while allowing recovered nodes to return to service. The delay determines when another check is eligible; it is not a sleep added to every command or the time limit for the check itself.
+
+| Strategy | Delay behavior |
+| --- | --- |
+| `equal-jitter` | Random delay between half the exponential ceiling and the ceiling, bounded by the cap. This is the default setting. |
+| `full-jitter` | Random delay from zero to the exponential ceiling, bounded by the cap. |
+| `exponential` | Exponentially increasing delay up to the cap, without jitter. |
+| `decorrelated-jitter` | Random delay between the base and three times the previous delay, with the upper bound limited to the cap. |
+| `constant` | Fixed delay equal to the base. |
+| `uniform` | Random delay from zero to the base on every attempt. |
+| `default` | Random delay from zero to the base initially, then the base on subsequent attempts. |
+
+Use a positive base and a cap at least as large as the base. Relay substitutes `1` for a nonpositive base and raises a smaller cap to the base.
+
+The existing `relay.cluster.shard_health_wait_time` setting remains as a compatibility override. A positive value forces a fixed delay in seconds and takes precedence over all three backoff settings. Leave it at `0` to use the new regime; `0` does not disable health checks. Negative values also select the backoff settings.
+
+These INI settings can be changed at runtime and are read when Relay schedules the next health check. A change does not reschedule a check that is already pending. They are separate from the connection retry options `OPT_BACKOFF_BASE`, `OPT_BACKOFF_CAP`, and `OPT_BACKOFF_ALGORITHM`.
 
 ### Cluster databases
 

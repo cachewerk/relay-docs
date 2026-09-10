@@ -34,6 +34,7 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.maxmemory_pct`             | `95`             | At what percentage of used memory should Relay start evicting keys. |
 | `relay.eviction_policy`           | `noeviction`     | How should Relay evict keys. This has been designed to mirror Redis’ options. Supported values: `noeviction`, `lru`, and `random` |
 | `relay.eviction_sample_keys`      | `128`            | How many keys should we scan each time we process evictions. |
+| `relay.flush_batch_size`          | `1024`           | Maximum cached entries reclaimed per cleanup callback for a flushed database map. Minimum `1`. Smaller batches reduce work per callback but retain retired cache memory longer. See [Performance](/docs/1.x/performance#relayflush_batch_size). |
 | `relay.databases`                 | `16`             | The number of databases Relay will create per in-memory cache. This setting should match the `databases` setting in your `redis.conf`. |
 | `relay.max_endpoint_dbs`          | `32`             | The maximum number of PHP workers that will have their own in-memory cache. This setting is per connection endpoint (distinct Redis connections), e.g. connecting to two separate instances will double the workers. See [Performance](/docs/1.x/performance). |
 | `relay.max_db_writers`            | `4`              | The maximum number of writers for a given cache. Writers are PHP workers with a persistent connection to Redis that can write to the cache and manage their own invalidations. Any number of workers can read from any cache. See [Performance](/docs/1.x/performance). |
@@ -49,6 +50,8 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 
 ## Cluster directives
 
+See [Cluster health checks](/docs/1.x/connections#cluster-health-checks) for how they affect node recovery and interact with per-node read timeouts.
+
 | Directive                              | Default          | Description                                                         |
 | -------------------------------------- | ---------------- | ------------------------------------------------------------------- |
 | `relay.cluster.seeds`                  |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=tcp://127.0.0.1:7000&cluster2[]=tcp://127.0.0.1:8000` |
@@ -56,7 +59,10 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.cluster.timeout`                |                  | The maximum number of seconds Relay will wait while establishing connection to a single cluster node. |
 | `relay.cluster.read_timeout`           |                  | The maximum number of seconds Relay will wait while reading from a cluster node. |
 | `relay.cluster.slot_cache_expiry`      |                  | The TTL of the cluster slot cache. |
-| `relay.cluster.shard_health_wait_time` | `0`              | The time to wait for shard health checks. |
+| `relay.cluster.shard_health_wait_base` | `1`              | Base delay in seconds for unhealthy-node health checks. Nonpositive values use `1`. |
+| `relay.cluster.shard_health_wait_cap` | `60`              | Maximum health-check delay in seconds. Values below the base are raised to the base. |
+| `relay.cluster.shard_health_wait_strategy` | `equal-jitter` | Health-check backoff algorithm. Supported values: `default`, `decorrelated-jitter`, `full-jitter`, `equal-jitter`, `exponential`, `uniform`, `constant`. |
+| `relay.cluster.shard_health_wait_time` | `0`              | Legacy override: a positive value selects a fixed health-check delay in seconds, overriding the base, cap, and strategy. Zero or negative values use the backoff settings above. |
 | `relay.session.locking_enabled`        | `0`              | Whether to enable session locking to avoid race conditions and keep session data consistent across requests. |
 | `relay.session.lock_expire`            | `0`              | The number of seconds Relay will try to acquire lock. When value is zero or negative `max_execution_time` will be used. |
 | `relay.session.lock_retries`           | `0`              | The number of attempts Relay will try to acquire lock. If value is zero or negative `100` will be used to be compatible with PhpRedis. |

@@ -21,6 +21,7 @@ As well as some `Relay\Cluster` specific ones:
 
 - `OPT_DISTRIBUTE`
 - `OPT_FAILOVER`
+- `OPT_NODE_READ_TIMEOUT`
 - `OPT_REPLICA_FAILOVER`
 - `OPT_AVAILABILITY_ZONE`
 
@@ -135,6 +136,21 @@ Controls the retry strategy when a command fails on a node. Defaults to `FAILOVE
 ```php
 $cluster->setOption(Cluster::OPT_FAILOVER, Cluster::FAILOVER_REPLICAS);
 ```
+
+## `OPT_NODE_READ_TIMEOUT`
+
+Sets a per-node read timeout in **seconds** for distributed or failover readonly commands. The default is `0.0`, which disables the override. Values must be finite and nonnegative.
+
+```php
+use Relay\Cluster;
+
+$cluster->setOption(Cluster::OPT_FAILOVER, Cluster::FAILOVER_REPLICAS);
+$cluster->setOption(Cluster::OPT_NODE_READ_TIMEOUT, 0.1); // 100 milliseconds
+```
+
+A slow node can exhaust this shorter timeout, allowing the configured failover strategy to try another node. At least one of `OPT_DISTRIBUTE` or `OPT_FAILOVER` must be enabled for the override to apply. Writes, pipelines, and transactions retain their normal timeout behavior.
+
+This option can be changed after connecting; set it before the reads it should govern. It limits individual node attempts, so a command that tries several nodes can take longer than this value. See [Cluster read timeouts](/docs/1.x/connections#cluster-read-timeouts) for its interaction with the command timeout and health checks.
 
 ## `OPT_REPLICA_FAILOVER`
 
