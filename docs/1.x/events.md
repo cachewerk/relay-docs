@@ -66,7 +66,7 @@ $relay->onInvalidated($userCallback, 'users:*');
 $relay->onInvalidated($sessionCallback, 'sessions:*');
 
 $relay->onInvalidated(
-    match: 'api:*',
+    pattern: 'api:*',
     callback: fn ($event) => deleteApiCacheKey($event->key)
 );
 ```

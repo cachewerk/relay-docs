@@ -105,7 +105,7 @@ Whether Relay should automatically restore active Pub/Sub subscriptions after re
 
 Controls how readonly commands are distributed across cluster nodes. Defaults to `DISTRIBUTE_NONE`.
 
-`OPT_DISTRIBUTE` and `OPT_FAILOVER` are the preferred way to configure cluster routing, rather than the legacy [`OPT_REPLICA_FAILOVER`](#optreplica_failover) compatibility option.
+`OPT_DISTRIBUTE` and `OPT_FAILOVER` are the preferred way to configure cluster routing, rather than the legacy [`OPT_REPLICA_FAILOVER`](#optreplicafailover) compatibility option.
 
 | Value | Description |
 | --- | --- |
@@ -123,7 +123,7 @@ $cluster->setOption(Cluster::OPT_DISTRIBUTE, Cluster::DISTRIBUTE_REPLICAS);
 
 Controls the retry strategy when a command fails on a node. Defaults to `FAILOVER_NONE`.
 
-`OPT_DISTRIBUTE` and `OPT_FAILOVER` are the preferred way to configure cluster routing, rather than the legacy [`OPT_REPLICA_FAILOVER`](#optreplica_failover) compatibility option.
+`OPT_DISTRIBUTE` and `OPT_FAILOVER` are the preferred way to configure cluster routing, rather than the legacy [`OPT_REPLICA_FAILOVER`](#optreplicafailover) compatibility option.
 
 | Value | Description |
 | --- | --- |

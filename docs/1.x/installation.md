@@ -156,7 +156,7 @@ Learn more [on GitHub](https://github.com/cachewerk/heroku-php-extensions).
 
 ### Configuring Relay on Heroku
 
-The Relay [configuration](/docs/1.x/configuration) can be changed by adding Heroku’s [compile step](https://devcenter.heroku.com/articles/php-support#custom-compile-step) to your `composer.json` file.
+The Relay [configuration](/docs/1.x/configuration) can be changed by adding Heroku’s [compile step](https://devcenter.heroku.com/articles/heroku-php-behavior#custom-compile-step) to your `composer.json` file.
 
 ```json
 {
