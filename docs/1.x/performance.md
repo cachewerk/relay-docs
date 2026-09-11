@@ -18,7 +18,7 @@ The default of `32` should be tuned to the number of CPU cores or maximum worker
 max_endpoint_dbs = min(vCPUs, pm.max_children)
 ```
 
-This setting is per connection endpoint (distinct Redis connections), meaning connecting to two separate Redis instances will double the number of workers that have their own cache. See also [`relay.cap_endpoint_dbs`](#relaycap_endpoint_dbs).
+This setting is per connection endpoint (distinct Redis connections), meaning connecting to two separate Redis instances will double the number of workers that have their own cache. See also [`relay.cap_endpoint_dbs`](#relaycapendpointdbs).
 
 ## `relay.max_db_writers`
 
