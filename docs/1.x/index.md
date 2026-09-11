@@ -15,6 +15,7 @@
 - ##### Digging Deeper
   - [Performance](/docs/1.x/performance)
   - [Compatibility](/docs/1.x/compatibility)
+  - [Cluster](/docs/1.x/cluster)
   - [Errors](/docs/1.x/errors)
   - [API](/docs/1.x/api)
   - [Builds](/docs/1.x/builds)

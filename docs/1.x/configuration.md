@@ -50,19 +50,12 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 
 ## Cluster directives
 
-See [Cluster health checks](/docs/1.x/connections#cluster-health-checks) for how they affect node recovery and interact with per-node read timeouts.
+See [Cluster directives](/docs/1.x/cluster#cluster-directives) for all `relay.cluster.*` settings, defaults, and examples.
+
+## Session directives
 
 | Directive                              | Default          | Description                                                         |
 | -------------------------------------- | ---------------- | ------------------------------------------------------------------- |
-| `relay.cluster.seeds`                  |                  | The list of cluster nodes addresses grouped by cluster name, which will be used to initialize each cluster, encoded as URL query string, e.g. `cluster1[]=tcp://127.0.0.1:7000&cluster2[]=tcp://127.0.0.1:8000` |
-| `relay.cluster.auth`                   |                  | The list of credentials for each cluster, encoded as URL query string. Password string or username/password pairs may be used, e.g. `cluster1=secret&cluster2[]=username&cluster2[]=secret` |
-| `relay.cluster.timeout`                |                  | The maximum number of seconds Relay will wait while establishing connection to a single cluster node. |
-| `relay.cluster.read_timeout`           |                  | The maximum number of seconds Relay will wait while reading from a cluster node. |
-| `relay.cluster.slot_cache_expiry`      |                  | The TTL of the cluster slot cache. |
-| `relay.cluster.shard_health_wait_base` | `1`              | Base delay in seconds for unhealthy-node health checks. Nonpositive values use `1`. |
-| `relay.cluster.shard_health_wait_cap` | `60`              | Maximum health-check delay in seconds. Values below the base are raised to the base. |
-| `relay.cluster.shard_health_wait_strategy` | `equal-jitter` | Health-check backoff algorithm. Supported values: `default`, `decorrelated-jitter`, `full-jitter`, `equal-jitter`, `exponential`, `uniform`, `constant`. |
-| `relay.cluster.shard_health_wait_time` | `0`              | Legacy override: a positive value selects a fixed health-check delay in seconds, overriding the base, cap, and strategy. Zero or negative values use the backoff settings above. |
 | `relay.session.locking_enabled`        | `0`              | Whether to enable session locking to avoid race conditions and keep session data consistent across requests. |
 | `relay.session.lock_expire`            | `0`              | The number of seconds Relay will try to acquire lock. When value is zero or negative `max_execution_time` will be used. |
 | `relay.session.lock_retries`           | `0`              | The number of attempts Relay will try to acquire lock. If value is zero or negative `100` will be used to be compatible with PhpRedis. |
