@@ -10,7 +10,7 @@ Relay provides many configuration directives and the `relay.ini` file can be loc
 php --ini
 ```
 
-It’s recommended to at least adjust the `relay.maxmemory` and `relay.eviction_policy` directives. For peak performance in production the `relay.locks.cache` and `relay.max_endpoint_dbs` directives must be adjusted, see [Performance](/docs/1.x/performance) section.
+It’s recommended to at least adjust the `relay.maxmemory` and `relay.eviction_policy` directives. For performance tuning in production, see [Performance](/docs/1.x/performance) for the cache lock and writer settings.
 
 If you're running a licensed binary, be sure to set the `relay.key` and `relay.environment` as well.
 
@@ -32,13 +32,12 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.environment`               | `development`    | The environment Relay is running in. Supported values: `production`, `staging`, `testing`, `development` |
 | `relay.maxmemory`                 | `16MB`           | How much memory Relay allocates on startup. This value can either be a number like `134217728` [or a unit](https://php.net/manual/faq.using.php#faq.using.shorthandbytes) (e.g. `128M`) like `memory_limit`. Relay will allocate at least 16M for overhead structures. Set to `0` to disable in-memory caching and use as client only. |
 | `relay.maxmemory_pct`             | `95`             | At what percentage of used memory should Relay start evicting keys. |
-| `relay.eviction_policy`           | `noeviction`     | How should Relay evict keys. This has been designed to mirror Redis’ options. Supported values: `noeviction`, `lru`, and `random` |
+| `relay.eviction_policy`           | `noeviction`     | How should Relay evict keys. This has been designed to mirror Redis’ options. Supported values: `noeviction`, `lru`, and `random`. See [Eviction policies](/docs/1.x/eviction#eviction-policies). |
 | `relay.eviction_sample_keys`      | `128`            | How many keys should we scan each time we process evictions. |
 | `relay.flush_batch_size`          | `1024`           | Maximum cached entries reclaimed per cleanup callback for a flushed database map. Minimum `1`. Smaller batches reduce work per callback but retain retired cache memory longer. See [Performance](/docs/1.x/performance#relayflushbatchsize). |
 | `relay.databases`                 | `16`             | The number of databases Relay will create per in-memory cache. This setting should match the `databases` setting in your `redis.conf`. |
-| `relay.max_endpoint_dbs`          | `32`             | The maximum number of PHP workers that will have their own in-memory cache. This setting is per connection endpoint (distinct Redis connections), e.g. connecting to two separate instances will double the workers. See [Performance](/docs/1.x/performance). |
-| `relay.max_db_writers`            | `4`              | The maximum number of writers for a given cache. Writers are PHP workers with a persistent connection to Redis that can write to the cache and manage their own invalidations. Any number of workers can read from any cache. See [Performance](/docs/1.x/performance). |
-| `relay.cap_endpoint_dbs`          | `On`             | Whether Relay should cap `max_endpoint_dbs` to the number of detected CPU cores. See [Performance](/docs/1.x/performance). |
+| `relay.max_db_writers`            | `4`              | As of `v0.60.x`, the maximum number of admitted tracking connections per endpoint. Supported values: integers from `1` to `1024`. Any number of workers can read from the cache. See [Performance](/docs/1.x/performance#relaymaxdbwriters). |
+| `relay.key_leases`                | `32`             | Shared pool of tracking-connection leases across all endpoints. Supported values: positive integers; effective capacity is rounded to a power of two, with a minimum of `16` and a maximum of `32768`. See [Performance](/docs/1.x/performance#relaykeyleases). |
 | `relay.locks.allocator`           | `adaptive-mutex` | Locking mechanism used for the allocator. Supported values: `spinlock`, `mutex`, `adaptive-mutex`. See [Performance](/docs/1.x/performance). |
 | `relay.locks.cache`               | `adaptive-mutex` | Locking mechanism used for the in-memory cache (databases). Supported values: `spinlock`, `mutex`, `adaptive-mutex`. See [Performance](/docs/1.x/performance). |
 | `relay.default_pconnect`          | `1`              | Default to using a persistent connection when calling `connect()`. |
@@ -46,7 +45,10 @@ To disable all in-memory caching and memory allocation `relay.maxmemory` can be 
 | `relay.invalidation_poll_freq`    | `5`              | How often (in microseconds) Relay should proactively check the connection for invalidation messages from Redis/Valkey. |
 | `relay.loglevel`                  | `off`            | Whether Relay should log debug information. Supported levels: `debug`, `verbose`, `notice`, `error`, `off` |
 | `relay.logfile`                   |                  | The log destination. Supports `stderr` or an absolute path. |
-| `relay.prefault`                  | `off`            | Whether Relay should fault in the shared memory segment during startup, instead of lazily on first use. Supported values: `off`, `populate` (uses `MAP_POPULATE`, Linux only), `touch` (writes to every page). |
+| `relay.prefault`                  | `off`            | How Relay faults in the shared memory segment during startup. Supported values: `off`, `populate`, `touch`. See [Performance](/docs/1.x/performance#relayprefault). |
+| `relay.huge_pages`                | `1`              | Development builds only. Request transparent huge pages for the shared cache on Linux at startup. Supported values: `0` (disabled), `1` (enabled). Has no effect on other platforms. See [Performance](/docs/1.x/performance#relayhugepages). |
+| `relay.cap_endpoint_dbs`          | —                | Ignored as of `v0.60.x`. |
+| `relay.max_endpoint_dbs`          | —                | Ignored as of `v0.60.x`. |
 
 ## Cluster directives
 
