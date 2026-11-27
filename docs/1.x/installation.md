@@ -63,6 +63,14 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 RUN install-php-extensions relay
 ```
 
+Alternatively, download the `install-php-extensions` script directly using `ADD`:
+
+```docker
+FROM php:8.4-cli
+ADD --chmod=0755 https://github.com/mlocati/install-php-extensions/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN install-php-extensions relay
+```
+
 ## Using APT
 
 If the setup is using Ondřej’s wonderful `ppa:ondrej/php` repository ([deb.sury.org](https://deb.sury.org)) to manage PHP and extensions, simply add our key and repository:
