@@ -134,10 +134,10 @@ Finally, restart PHP-FPM and the web server.
 Relay can be installed using [PHP PIE](https://github.com/php/pie):
 
 ```bash
-pie install cachewerk/relay
+pie install cachewerk/ext-relay
 
 # install for a specific PHP version:
-pie install --with-php-config=/usr/bin/php-config7.4 cachewerk/relay
+pie install --with-php-config=/usr/bin/php-config7.4 cachewerk/ext-relay
 ```
 
 ## Heroku
